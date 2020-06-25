@@ -40,6 +40,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -61,5 +62,21 @@ export default {
   },
   serverMiddleware: [
     "~/api"
-  ]
+  ],
+  auth: {
+    strategies: {
+      social: {
+        _scheme: "oauth2",
+        authorization_endpoint: "https://accounts.spotify.com/authorize",
+        scope: ["user-read-private"],
+        access_type: "offline",
+        access_token_endpoint: undefined,
+        response_type: "code",
+        token_type: "Bearer",
+        redirect_uri: undefined,
+        client_id: "f79dd1f6402b41fe8828c55654cea80a",
+        token_key: "access_token",
+      }
+    }
+  }
 }

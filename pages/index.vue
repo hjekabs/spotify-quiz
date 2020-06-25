@@ -31,6 +31,9 @@
 <script>
 import Logo from '~/components/Logo.vue'
 
+
+const test = fetch("http://localhost:3000/api/test").then((res) => console.log(res.text()))
+
 export default {
   components: {
     Logo
