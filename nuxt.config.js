@@ -40,8 +40,16 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    'nuxt-socket-io',
   ],
+  io: {
+    // module options
+    sockets: [{
+      name: 'main',
+      url: 'http://localhost:3000'
+    }]
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
@@ -71,7 +79,7 @@ export default {
         scope: ["user-read-private"],
         access_type: "offline",
         access_token_endpoint: undefined,
-        response_type: "code",
+        response_type: "token",
         token_type: "Bearer",
         redirect_uri: process.env.BASE_URL || 'http://localhost:3000/callback',
         client_id: "f79dd1f6402b41fe8828c55654cea80a",
@@ -82,5 +90,7 @@ export default {
 
   router: {
     middleware: ['auth']
-  }
+  },
+
+  
 }

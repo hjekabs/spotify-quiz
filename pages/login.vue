@@ -12,17 +12,6 @@ export default {
             this.$auth.loginWith("social")
         }
     },
-    mounted() {
-
-        const {code} = this.$route.query
-
-        console.log(this.$auth.loggedIn)
-
-        if(code) {
-            console.log("we should request the access token here")
-            this.$axios.$post("https://accounts.spotify.com/api/token")
-        }
-    }
 }
 </script>
 
