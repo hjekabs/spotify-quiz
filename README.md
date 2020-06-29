@@ -20,3 +20,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+** NOTES
+For random might check out this lib:
+https://github.com/nastyox/Rando.js
