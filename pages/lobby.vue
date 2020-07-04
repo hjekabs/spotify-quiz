@@ -5,9 +5,12 @@
 </template>
 
 <script>
+
+import socket from '~/plugins/socket.io.js'
+
 export default {
 
-    auth: false,
+    // auth: false,
 
     data() {
         return {
@@ -15,16 +18,11 @@ export default {
         }
     },
 
-    mounted() {
-        this.socket = this.$nuxtSocket({
-            channel: "/index"
+    beforeMount () {
+        socket.on('logged-in-users', (message) => {
+            console.log(message)
         })
-
-        this.socket
-        .on("userLoggedIn", (msg, cb) => {
-            console.log(msg)
-        })
-    }
+    },
 }
 </script>
 

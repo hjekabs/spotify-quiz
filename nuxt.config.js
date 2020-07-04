@@ -41,15 +41,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    'nuxt-socket-io',
+    "~/io"
   ],
-  io: {
-    // module options
-    sockets: [{
-      name: 'main',
-      url: 'http://localhost:3000'
-    }]
-  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

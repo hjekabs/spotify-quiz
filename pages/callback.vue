@@ -7,6 +7,7 @@
 <script>
 
 import { mapMutations } from "vuex";
+import socket from '~/plugins/socket.io.js'
 
 export default {
     async mounted() {
@@ -21,13 +22,17 @@ export default {
 
         console.log(userInfo)
 
-        // this.socket = this.$nuxtSocket({
-        //     channel: "/index"
-        // })
+        const { display_name, email, id} = userInfo.data
 
-        // this.socket.$emit("userLoggedIn", {
+        const user = {
+            display_name,
+            email,
+            id
+        }
 
-        // })
+        console.log("should emit")
+        socket.emit("user-logged_in", user)
+
     }
 }
 </script>
