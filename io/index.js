@@ -12,15 +12,21 @@ export default function () {
     this.nuxt.hook('close', () => new Promise(server.close))
 
     // Add socket.io events
-    const messages = []
+    
+    const users = []
+
+
     io.on('connection', (socket) => {
 
         console.log("connected")
 
       socket.on('user-logged_in', function (message) {
         console.log("In am in backed and received something")
-        console.log(message)
-        socket.broadcast.emit('logged-in-users', message)
+
+        // add the users
+        users.push(message)
+
+        socket.broadcast.emit('logged-in-users', users)
       })
     })
   })
