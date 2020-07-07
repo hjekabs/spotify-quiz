@@ -6,6 +6,8 @@
 
 <script>
 
+import socket from '~/plugins/socket.io.js'
+
 export default {
   async mounted() {
     const accessToken = this.$auth.getToken("social")
@@ -18,7 +20,17 @@ export default {
         }
     })
 
-    console.log(userInfo)
+    const { display_name, email, id} = userInfo.data
+
+        const user = {
+            display_name,
+            email,
+            id
+        }
+
+        socket.emit("user-logged_in", userInfo.data)
+
+        this.$router.push("/lobby")
   }
 }
 </script>

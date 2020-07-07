@@ -39,10 +39,10 @@ export default {
     },
 
     mounted () {
-        socket.on('logged-in-users', (message) => {
-            this.users = message
-            console.log(this.allUsers)
-            console.log(message)
+        socket.emit("user-entered-lobby")
+        socket.on("ready-users", function(users) {
+            console.log("Here are all the ready users:")
+            console.log(users)
         })
     },
 }
