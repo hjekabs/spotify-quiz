@@ -28,7 +28,13 @@ export default function () {
       // user entered lobby
       socket.on("user-entered-lobby", function(msg) {
         socket.join("lobby")
-        socket.to("lobby").emit("ready-users", users.users)
+        io.to("lobby").emit("ready-users", users.users)
+      })
+
+      socket.on("user-joined-game", function(msg) {
+        
+        socket.join("game")
+        socket.to("game").emit("game-ready-users")
       })
 
       // user has diconnected

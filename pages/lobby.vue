@@ -1,14 +1,14 @@
 <template>
   <div>
-      <h1>This is the lobby and should show logged in users:</h1>
+      <h1>You can now join a game</h1>
 
       <hr>
 
-      <ul>
-          <li v-for="user in allUsers" :key="user.id">
-              {{ user.display_name }} 
-          </li>
-      </ul>
+        <label for="">Enter a game pin</label>
+        <input type="text" v-model.lazy="gamePin">
+        <p>You will join game: {{ gamePin }}</p>
+        <button @click="joinGame">Join a game</button>
+
   </div>
 </template>
 
@@ -19,18 +19,12 @@ import {mapGetters} from "vuex";
 
 export default {
 
-    
-
     auth: false,
-
-
-    asyncData({req}) {
-        console.log(req)
-    },
 
     data() {
         return {
-            users: [],
+            user: null,
+            gamePin: null,
         }
     },
 
@@ -40,6 +34,13 @@ export default {
         }),
         allUsers() {
             return this.users
+        }
+    },
+
+    methods: {
+        joinGame() {
+
+            this.$router.push("/game?id=" + this.gamePin)
         }
     },
 
