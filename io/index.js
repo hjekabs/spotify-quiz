@@ -25,19 +25,17 @@ export default function () {
         })
       })
 
-
       // user entered lobby
       socket.on("user-entered-lobby", function(msg) {
-        console.log("I am coming from the lobby page")
-        socket.emit("ready-users", users.users)
+        socket.join("lobby")
+        socket.to("lobby").emit("ready-users", users.users)
       })
-
 
       // user has diconnected
       socket.on("disconnect", function() {
-        users.removeUser(socket.id)
-        console.log("-----------------------")
-        console.log(users.users)
+        // users.removeUser(socket.id)
+        // console.log("-----------------------")
+        // console.log(users.users)
         console.log("user disconnected")
       })
     })
