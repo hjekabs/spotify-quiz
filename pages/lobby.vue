@@ -23,6 +23,11 @@ export default {
 
     auth: false,
 
+
+    asyncData({req}) {
+        console.log(req)
+    },
+
     data() {
         return {
             users: [],
@@ -41,10 +46,16 @@ export default {
     mounted () {
         socket.emit("user-entered-lobby")
         socket.on("ready-users", function(users) {
-            console.log("Here are all the ready users:")
+            console.log("Here are all the ready")
             console.log(users)
         })
     },
+
+    created() {
+        socket.on("ready-users", function(users) {
+            console.log(users)
+        })
+    }
 }
 </script>
 
