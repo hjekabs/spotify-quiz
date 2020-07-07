@@ -1,5 +1,6 @@
 import http from 'http'
 import socketIO from 'socket.io'
+import  {Users}  from "../utils/users";
 
 export default function () {
   this.nuxt.hook('render:before', (renderer) => {
@@ -11,16 +12,33 @@ export default function () {
     // close this server on 'close' event
     this.nuxt.hook('close', () => new Promise(server.close))
 
-    // Add socket.io events
-    const messages = []
+    // create the Users class
+    const users = new Users()
+
     io.on('connection', (socket) => {
 
-        console.log("connected")
+      // user logged in
+      socket.on('user-logged_in', function (user) {
+        users.addUser({
+          ...user,
+          socketId: socket.id
+        })
+      })
 
-      socket.on('user-logged_in', function (message) {
-        console.log("In am in backed and received something")
-        console.log(message)
-        socket.broadcast.emit('logged-in-users', message)
+
+      // user entered lobby
+      socket.on("user-entered-lobby", function(msg) {
+        console.log("I am coming from the lobby page")
+        socket.emit("ready-users", users.users)
+      })
+
+
+      // user has diconnected
+      socket.on("disconnect", function() {
+        users.removeUser(socket.id)
+        console.log("-----------------------")
+        console.log(users.users)
+        console.log("user disconnected")
       })
     })
   })

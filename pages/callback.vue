@@ -10,6 +10,13 @@ import { mapMutations } from "vuex";
 import socket from '~/plugins/socket.io.js'
 
 export default {
+
+    // methods: {
+    //     ...mapMutations({
+    //         addUser: "addUser"
+    //     })
+    // },
+
     async mounted() {
         
         const accessToken = this.$auth.getToken("social")
@@ -20,8 +27,6 @@ export default {
             }
         })
 
-        console.log(userInfo)
-
         const { display_name, email, id} = userInfo.data
 
         const user = {
@@ -30,8 +35,9 @@ export default {
             id
         }
 
-        console.log("should emit")
-        socket.emit("user-logged_in", user)
+        socket.emit("user-logged_in", userInfo.data)
+
+        this.$router.push("/lobby")
 
     }
 }
