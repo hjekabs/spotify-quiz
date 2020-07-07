@@ -11,11 +11,11 @@ import socket from '~/plugins/socket.io.js'
 
 export default {
 
-    // methods: {
-    //     ...mapMutations({
-    //         addUser: "addUser"
-    //     })
-    // },
+    methods: {
+        ...mapMutations({
+            addUser: "addUser"
+        })
+    },
 
     async mounted() {
         
@@ -36,7 +36,7 @@ export default {
         }
 
         socket.emit("user-logged_in", userInfo.data)
-
+        this.addUser(userInfo.data)
         this.$router.push("/lobby")
 
     }

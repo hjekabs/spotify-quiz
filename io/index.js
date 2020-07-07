@@ -1,6 +1,6 @@
 import http from 'http'
 import socketIO from 'socket.io'
-import  {Users}  from "../utils/users";
+import  {Users, GameUsers}  from "../utils/users";
 
 export default function () {
   this.nuxt.hook('render:before', (renderer) => {
@@ -14,6 +14,7 @@ export default function () {
 
     // create the Users class
     const users = new Users()
+    const gameUsers = new GameUsers()
 
     io.on('connection', (socket) => {
 
@@ -32,9 +33,14 @@ export default function () {
       })
 
       socket.on("user-joined-game", function(msg) {
-        
-        socket.join("game")
-        socket.to("game").emit("game-ready-users")
+        const {pin, user} = msg
+        socket.join(`game-${pin}`)
+        gameUsers.addUser(user)
+        console.log("should be emiting?????")
+        io.to(`game-${pin}`).emit("game-ready-users", {
+          user: user,
+          allUsers: gameUsers.users
+        })
       })
 
       // user has diconnected

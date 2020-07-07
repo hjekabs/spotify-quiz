@@ -30,7 +30,7 @@ export default {
 
     computed: {
         ...mapGetters({
-            getUsers: "getUsers"
+            getUser: "getUser"
         }),
         allUsers() {
             return this.users
@@ -39,24 +39,26 @@ export default {
 
     methods: {
         joinGame() {
-
-            this.$router.push("/game?id=" + this.gamePin)
+            const self = this;
+            this.$router.push({
+                path: `/game?id=${this.gamePin}`
+            })
         }
     },
 
-    mounted () {
-        socket.emit("user-entered-lobby")
-        socket.on("ready-users", function(users) {
-            console.log("Here are all the ready")
-            console.log(users)
-        })
-    },
+    // mounted () {
+    //     socket.emit("user-entered-lobby")
+    //     socket.on("ready-users", function(users) {
+    //         console.log("Here are all the ready")
+    //         console.log(users)
+    //     })
+    // },
 
-    created() {
-        socket.on("ready-users", function(users) {
-            console.log(users)
-        })
-    }
+    // created() {
+    //     socket.on("ready-users", function(users) {
+    //         console.log(users)
+    //     })
+    // }
 }
 </script>
 

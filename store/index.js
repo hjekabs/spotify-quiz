@@ -10,13 +10,13 @@
 
 
 export const state = () => ({
-    users: [],
+    user: {},
     activeGames: []
 })
 
 export const getters = {
-    getUsers(state) {
-        return state.users
+    getUser(state) {
+        return state.user
     },
     getActiveGames(state) {
         return state.activeGames
@@ -25,7 +25,7 @@ export const getters = {
 
 export const mutations = {
     addUser(state, user) {
-        state.users.push(user)
+        state.user = user;
     },
     addActiveGame(state, nr) {
         state.activeGames.push(nr)
