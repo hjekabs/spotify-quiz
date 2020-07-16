@@ -5,36 +5,53 @@
 </template>
 
 <script>
-
+import { mapMutations } from 'vuex'
 import socket from '~/plugins/socket.io.js'
 
 export default {
+  methods: {
+    ...mapMutations({
+      addUser: 'addUser'
+    })
+  },
   async mounted() {
-    const accessToken = this.$auth.getToken("social")
+    const accessToken = this.$auth.getToken('social')
 
-    console.log(accessToken)
-
-    const userInfo = await this.$axios.get("https://api.spotify.com/v1/me", {
-        headers: {
-            Authorization: accessToken
-        }
+    const userInfo = await this.$axios.get('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: accessToken
+      }
     })
 
-    const { display_name, email, id} = userInfo.data
+    let topUserTracks = undefined
 
-        const user = {
-            display_name,
-            email,
-            id
+    try {
+      const userTracks = await this.$axios.get(
+        'https://api.spotify.com/v1/me/top/tracks',
+        {
+          headers: {
+            Authorization: accessToken
+          }
         }
+      )
+      topUserTracks = userTracks.data
+    } catch (e) {
+      console.log(e)
+    }
 
-        socket.emit("user-logged_in", userInfo.data)
+    const { display_name, email, id } = userInfo.data
 
-        this.$router.push("/lobby")
+    const user = {
+      userInfo: userInfo.data,
+      topUserTracks
+    }
+
+    // socket.emit('user-logged_in', user)
+    this.addUser(user)
+    this.$router.push('/lobby')
   }
 }
 </script>
 
 <style>
-
 </style>

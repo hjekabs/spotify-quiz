@@ -1,29 +1,29 @@
-class Users {
-    constructor() {
-        this.users = [];
-    }
-
-    addUser(user) {
-        this.users = [...this.users, user]
-    }
-    
-    removeUser(id) {
-        this.users = this.users.filter(user => user.socketId !== id)
-    }
-}
-
 class GameUsers {
-    constructor() {
-        this.users = [];
-    }
+  constructor() {
+    this.users = []
+  }
 
-    addUser(user) {
-        this.users = [...this.users, user]
+  getUsers() {
+    return this.users
+  }
+
+  addUser(user) {
+    this.users = [...this.users, user]
+  }
+
+  removeUser(id) {
+    this.users = this.users.filter(user => user.socketId !== id)
+  }
+
+  userPin(id) {
+    const user = this.users.filter(user => user.socketId === id)[0]
+
+    if (user) {
+      return user.pin
+    } else {
+      return undefined
     }
-    
-    removeUser(id) {
-        this.users = this.users.filter(user => user.socketId !== id)
-    }
+  }
 }
 
-export { Users, GameUsers }
+export { GameUsers }
