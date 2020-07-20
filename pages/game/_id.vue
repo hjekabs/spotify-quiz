@@ -22,6 +22,7 @@ function filterSongs() {}
 
 import socket from '~/plugins/socket.io.js'
 import { mapGetters } from 'vuex'
+import { game } from '~/utils/game.js'
 
 export default {
   data() {
