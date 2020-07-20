@@ -32,7 +32,9 @@ export default function() {
 
         // return to lobby all users
         io.to(`game-${pin}`).emit('game-ready-users', {
-          allUsers: gameUsers.getUsers()
+          allUsers: gameUsers.getUsers(),
+          user,
+          socketId: socket.id
         })
       })
 
