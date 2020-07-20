@@ -40,11 +40,6 @@ export default function() {
       socket.on('disconnect', function() {
         const pin = gameUsers.userPin(socket.id)
         gameUsers.removeUser(socket.id)
-
-        console.log('now in the lobby should be:')
-
-        console.log(gameUsers.getUsers())
-
         io.to(`game-${pin}`).emit('game-ready-users', {
           allUsers: gameUsers.getUsers()
         })
