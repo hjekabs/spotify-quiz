@@ -43,9 +43,6 @@ export default {
     }
 
     // check if image and add if exists
-
-    console.log(userData.images[0])
-
     if (userData.images[0]) user.imageUrl = userData.images[0].url
 
     if (topUserTracks.items.length) {

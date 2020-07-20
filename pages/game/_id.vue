@@ -14,6 +14,8 @@
     <ul>
       <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
     </ul>
+
+    <button @click="readyGame">start game</button>
   </div>
 </template>
 
@@ -22,7 +24,7 @@ function filterSongs() {}
 
 import socket from '~/plugins/socket.io.js'
 import { mapGetters } from 'vuex'
-import { game } from '~/utils/game.js'
+import { gameData } from '~/utils/game.js'
 
 export default {
   data() {
@@ -38,7 +40,14 @@ export default {
     })
   },
 
-  methods: {},
+  methods: {
+    readyGame() {
+      console.log(this.users)
+      const data = gameData(this.users)
+      console.log(data)
+      console.log(`clicked by user ${this.getUser.displayName}`)
+    }
+  },
 
   mounted() {
     const gamePin = this.$route.query.id
@@ -52,11 +61,7 @@ export default {
       console.log(msg)
       const { user, allUsers, socketId } = msg
       self.users = allUsers
-
-      // self.tracks.push({
-      //   tracks: user.topUserTracks,
-      //   userSocketId: socketId
-      // })
+      self.user = user
     })
   }
 }
