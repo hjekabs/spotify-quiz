@@ -2,30 +2,44 @@ export const gameData = allUsers => {
   // later dynamically define users
   const questions = 10
   const userCount = allUsers.length
-  let divideBy = Math.floor(questions / userCount)
+  let initialSongsPerUser = Math.floor(questions / userCount)
   const gameData = []
-  sortData(allUsers, gameData, divideBy)
-  //   if gamedata is still not filled
-  //   if (gameData.length < questions) {
-  //   }
 
-  //   run while we get full set of questions
+  // add socketIds to songs
+  prepareData(allUsers)
+
+  const userTracks = allUsers.map(user => user.trackInfo)
+  // // sort the data
+  sortData(userTracks, gameData, 0, initialSongsPerUser)
+
   while (gameData.length < questions) {
-    divideBy = Math.floor(questions / gameData.length)
-    sortData(allUsers, gameData, divideBy)
+    let increment = Math.floor(questions / gameData.length)
+    let nextSongsPerUser = initialSongsPerUser + increment
+
+    sortData(userTracks, gameData, initialSongsPerUser, nextSongsPerUser)
+
+    initialSongsPerUser = nextSongsPerUser
   }
 
   return gameData
 }
 
-function sortData(users, pushTo, divideBy) {
-  users.map(user => {
-    // user object
-    const obj = {
-      user: user.socketId,
-      tracks: user.trackInfo.slice(0, divideBy)
-    }
+// add socketId to track object
+function prepareData(users) {
+  return users.map(user => {
+    user.trackInfo.map(track => {
+      track.socketId = user.socketId
+      track.userDisplayName = user.displayName
+    })
+  })
+}
 
-    pushTo.push(obj)
+function sortData(tracks, pushTo, start, end) {
+  tracks.forEach(track => {
+    if (track.length) {
+      track.slice(start, end).forEach(t => {
+        pushTo.push(t)
+      })
+    }
   })
 }
