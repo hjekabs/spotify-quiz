@@ -7,7 +7,7 @@
     <label for>Enter a game pin</label>
     <input type="text" v-model.lazy="gamePin" />
     <p>You will join game: {{ gamePin }}</p>
-    <button @click="joinGame">Join a game</button>
+    <button class="btn btn-primary" @click="joinGame">Join a game</button>
   </div>
 </template>
 
@@ -42,5 +42,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
