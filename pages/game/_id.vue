@@ -30,9 +30,8 @@
       {{ game.startTimer }}
     </div>
     <div v-else-if="game.loadStatus === 'START'">
-      <h1>GAME should start now</h1>
-      <b></b>
-      {{ tracks }}
+      <!-- Question component -->
+      <Question :tracks="tracks" />
     </div>
   </div>
 </template>
@@ -43,8 +42,12 @@ function filterSongs() {}
 import socket from '~/plugins/socket.io.js'
 import { mapGetters } from 'vuex'
 import { gameData } from '~/utils/game.js'
+import Question from '~/components/Question.vue'
 
 export default {
+  components: {
+    Question
+  },
   data() {
     return {
       users: [],
