@@ -21,7 +21,6 @@ export default function() {
     io.on('connection', socket => {
       // user has joined the game
       socket.on('user-joined-game', function(msg) {
-        console.log(socket.id)
         const { pin, user } = msg
         socket.join(`game-${pin}`)
         gameUsers.addUser({
@@ -34,8 +33,15 @@ export default function() {
         io.to(`game-${pin}`).emit('game-ready-users', {
           allUsers: gameUsers.getUsers(),
           user,
-          socketId: socket.id
+          socketId: socket.id,
+          pin
         })
+      })
+
+      // admin clicked on game started
+      socket.on('clicked-start-game', function(msg) {
+        const pin = msg
+        io.to(`game-${pin}`).emit('start-game')
       })
 
       // user has diconnected

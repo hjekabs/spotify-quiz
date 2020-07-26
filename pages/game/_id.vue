@@ -13,12 +13,10 @@
 
       <p>Tracks:</p>
       <ul>
-        <li v-for="track in tracks" :key="track.id">
-          {{ track.tracks }} belongs for track.socketId
-        </li>
+        <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
       </ul>
 
-      <button @click="readyGame">start game</button>
+      <button @click="emitReadyGame">start game</button>
     </div>
     <div v-else-if="game.loadStatus === 'LOADING'">
       Setting up the game, please wait...
@@ -26,9 +24,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div v-else-if="game.loadStatus === 'GETREADY'">
-      {{ game.startTimer }}
-    </div>
+    <div v-else-if="game.loadStatus === 'GETREADY'">{{ game.startTimer }}</div>
     <div v-else-if="game.loadStatus === 'START'">
       <!-- Question component -->
       <Question :tracks="tracks" />
@@ -82,6 +78,9 @@ export default {
           self.game.startTimer--
         }, 1000)
       }
+    },
+    emitReadyGame() {
+      socket.emit('clicked-start-game', this.pin)
     }
   },
 
@@ -95,9 +94,15 @@ export default {
 
     socket.on('game-ready-users', function(msg) {
       console.log(msg)
-      const { user, allUsers, socketId } = msg
+      const { user, allUsers, socketId, pin } = msg
       self.users = allUsers
       self.user = user
+      self.pin = pin
+    })
+
+    // start the game for all users
+    socket.on('start-game', function(msg) {
+      self.readyGame()
     })
   }
 }
