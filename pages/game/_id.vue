@@ -1,21 +1,34 @@
 <template>
   <div>
-    <h1>This is the game lobby</h1>
+    <div v-if="game.loadStatus === 'INITIAL'">
+      <h1>This is the game lobby</h1>
 
-    <p>Users in this game lobby:</p>
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        {{ user.displayName }}
-        with socketId {{ user.socketId }}
-      </li>
-    </ul>
+      <p>Users in this game lobby:</p>
+      <ul>
+        <li v-for="user in users" :key="user.id">
+          {{ user.displayName }}
+          with socketId {{ user.socketId }}
+        </li>
+      </ul>
 
-    <p>Tracks:</p>
-    <ul>
-      <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
-    </ul>
+      <p>Tracks:</p>
+      <ul>
+        <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
+      </ul>
 
-    <button @click="readyGame">start game</button>
+      <button @click="emitReadyGame">start game</button>
+    </div>
+    <div v-else-if="game.loadStatus === 'LOADING'">
+      Setting up the game, please wait...
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="game.loadStatus === 'GETREADY'">{{ game.startTimer }}</div>
+    <div v-else-if="game.loadStatus === 'START'">
+      <!-- Question component -->
+      <Question :tracks="tracks" />
+    </div>
   </div>
 </template>
 
@@ -25,12 +38,20 @@ function filterSongs() {}
 import socket from '~/plugins/socket.io.js'
 import { mapGetters } from 'vuex'
 import { gameData } from '~/utils/game.js'
+import Question from '~/components/Question.vue'
 
 export default {
+  components: {
+    Question
+  },
   data() {
     return {
       users: [],
-      tracks: []
+      tracks: [],
+      game: {
+        loadStatus: 'INITIAL',
+        startTimer: 3
+      }
     }
   },
 
@@ -42,10 +63,24 @@ export default {
 
   methods: {
     readyGame() {
-      console.log(this.users)
-      const data = gameData(this.users)
-      console.log(data)
-      console.log(`clicked by user ${this.getUser.displayName}`)
+      this.game.loadStatus = 'LOADING'
+      this.tracks = gameData(this.users)
+
+      if (this.tracks.length) {
+        this.game.loadStatus = 'GETREADY'
+
+        const self = this
+        const decrementTimer = setInterval(() => {
+          if (self.game.startTimer === 1) {
+            clearInterval(decrementTimer)
+            self.game.loadStatus = 'START'
+          }
+          self.game.startTimer--
+        }, 1000)
+      }
+    },
+    emitReadyGame() {
+      socket.emit('clicked-start-game', this.pin)
     }
   },
 
@@ -59,13 +94,18 @@ export default {
 
     socket.on('game-ready-users', function(msg) {
       console.log(msg)
-      const { user, allUsers, socketId } = msg
+      const { user, allUsers, socketId, pin } = msg
       self.users = allUsers
       self.user = user
+      self.pin = pin
+    })
+
+    // start the game for all users
+    socket.on('start-game', function(msg) {
+      self.readyGame()
     })
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>
