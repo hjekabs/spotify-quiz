@@ -44,6 +44,11 @@ export default function() {
         io.to(`game-${pin}`).emit('start-game')
       })
 
+      socket.on('user-answered-question', function(msg) {
+        console.log('user answered answer and coming from:')
+        console.log(socket.id)
+      })
+
       // user has diconnected
       socket.on('disconnect', function() {
         const pin = gameUsers.userPin(socket.id)

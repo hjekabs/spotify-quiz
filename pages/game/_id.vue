@@ -13,10 +13,14 @@
 
       <p>Tracks:</p>
       <ul>
-        <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
+        <li v-for="track in tracks" :key="track.id">
+          {{ track.tracks }} belongs for track.socketId
+        </li>
       </ul>
 
       <button @click="emitReadyGame">start game</button>
+
+      <button @click="alertSocket">socket</button>
     </div>
     <div v-else-if="game.loadStatus === 'LOADING'">
       Setting up the game, please wait...
@@ -27,7 +31,14 @@
     <div v-else-if="game.loadStatus === 'GETREADY'">{{ game.startTimer }}</div>
     <div v-else-if="game.loadStatus === 'START'">
       <!-- Question component -->
-      <Question :tracks="tracks" />
+      <Question
+        :tracks="tracks"
+        :user="user"
+        :allUsers="users"
+        :questionNumber="questionNumber"
+        :socketId="socketId"
+        @answerClick="questionAnswered"
+      />
     </div>
   </div>
 </template>
@@ -36,7 +47,7 @@
 function filterSongs() {}
 
 import socket from '~/plugins/socket.io.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { gameData } from '~/utils/game.js'
 import Question from '~/components/Question.vue'
 
@@ -51,7 +62,9 @@ export default {
       game: {
         loadStatus: 'INITIAL',
         startTimer: 3
-      }
+      },
+      answers: [],
+      questionNumber: 0
     }
   },
 
@@ -62,6 +75,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      addUser: 'addUser'
+    }),
     readyGame() {
       this.game.loadStatus = 'LOADING'
       this.tracks = gameData(this.users)
@@ -81,6 +97,13 @@ export default {
     },
     emitReadyGame() {
       socket.emit('clicked-start-game', this.pin)
+    },
+    questionAnswered(value) {
+      console.log('wtf')
+      socket.emit('user-answered-question', this.pin)
+    },
+    alertSocket() {
+      alert(this.socketId)
     }
   },
 
@@ -98,6 +121,8 @@ export default {
       self.users = allUsers
       self.user = user
       self.pin = pin
+      self.socketId = socketId
+      self.addUser({ ...user, socketId: socketId })
     })
 
     // start the game for all users
