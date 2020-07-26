@@ -1,6 +1,27 @@
 <template>
   <div>
-    <button @click="onClickAnswer">Click me</button>
+    <div class="card">
+      <div class="card-body">
+        {{ tracks[questionNumber].trackName }}
+        {{ tracks[questionNumber].socketId }}
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="container">
+      <div class="row">
+        <div
+          v-for="user in allUsers"
+          :key="user.id"
+          class="col user-col"
+          @click="onClickAnswer(tracks[questionNumber].socketId)"
+        >
+          <img :src="user.imageUrl" class="img-thumbnail" />
+          {{ user.displayName }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,15 +37,30 @@ export default {
   },
   methods: {
     onClickAnswer(event) {
-      this.$emit('answerClick', 'some value')
+      console.log('click on question')
+      console.log(event)
+      // this.$emit('answerClick', 'some value')
     }
   },
   mounted() {
-    console.log('mounted')
+    console.log(this.tracks)
     console.log(this.allUsers)
-    console.log(this.questionNumber)
   }
 }
 </script>
 
-<style></style>
+<style>
+.img-thumbnail {
+  width: 50px;
+  height: 50px;
+}
+
+.user-col {
+  border: 2px solid rgb(109, 86, 86);
+}
+
+.user-col:hover {
+  background-color: rgb(236, 235, 235);
+  cursor: pointer;
+}
+</style>
