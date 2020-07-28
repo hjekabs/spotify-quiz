@@ -49,14 +49,22 @@ export default function() {
       })
 
       socket.on('user-answered-question', function(msg) {
-        const { pin, correctAsnwer } = msg
+        const { pin, answer } = msg
         const socketId = socket.id
         global[`answersPin-${pin}`].addAnswer({
           socketId,
-          correctAsnwer
+          answer
         })
-        console.log(global[`answersPin-${pin}`].getAnswers())
-        console.log(global)
+        io.to(`game-${pin}`).emit('add-answered', answer)
+      })
+
+      socket.on('all-users-answered-question', function(msg) {
+        const { pin, answers } = msg
+        const allAnswers = global[`answersPin-${pin}`].getAnswers()
+        io.to(`game-${pin}`).emit('all-answered', {
+          allAnswers,
+          answers
+        })
       })
 
       // user has diconnected

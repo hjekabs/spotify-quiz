@@ -19,8 +19,6 @@
       </ul>
 
       <button @click="emitReadyGame">start game</button>
-
-      <button @click="alertSocket">socket</button>
     </div>
     <div v-else-if="game.loadStatus === 'LOADING'">
       Setting up the game, please wait...
@@ -38,14 +36,22 @@
         :questionNumber="questionNumber"
         :socketId="socketId"
         @answerClick="questionAnswered"
+        @allUsersAnswered="allUsersAnswered"
       />
+    </div>
+    <div v-else-if="game.loadStatus === 'ANSWER_BREAK'">
+      <h1>All users have answered now</h1>
+      <p>{{ answers }}</p>
+      <p>
+        All answers:
+        {{ allAnswers }}
+      </p>
+      <h2>Next question starts in: {{ game.breakTimer }}</h2>
     </div>
   </div>
 </template>
 
 <script>
-function filterSongs() {}
-
 import socket from '~/plugins/socket.io.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { gameData } from '~/utils/game.js'
@@ -61,9 +67,11 @@ export default {
       tracks: [],
       game: {
         loadStatus: 'INITIAL',
-        startTimer: 3
+        startTimer: 3,
+        breakTimer: 10
       },
       answers: [],
+      allAnswers: [],
       questionNumber: 0
     }
   },
@@ -98,16 +106,20 @@ export default {
     emitReadyGame() {
       socket.emit('clicked-start-game', this.pin)
     },
-    questionAnswered(correctAsnwer) {
+    questionAnswered(answer) {
       const pin = this.pin
       socket.emit('user-answered-question', {
         pin,
-        correctAsnwer
+        answer
       })
-      this.questionNumber++
     },
-    alertSocket() {
-      alert(this.socketId)
+    allUsersAnswered(answers) {
+      this.game.loadStatus = 'ANSWER_BREAK'
+      const pin = this.pin
+      socket.emit('all-users-answered-question', {
+        pin,
+        answers
+      })
     }
   },
 
@@ -120,7 +132,6 @@ export default {
     })
 
     socket.on('game-ready-users', function(msg) {
-      console.log(msg)
       const { user, allUsers, socketId, pin } = msg
       self.users = allUsers
       self.user = user
@@ -132,6 +143,22 @@ export default {
     // start the game for all users
     socket.on('start-game', function(msg) {
       self.readyGame()
+    })
+
+    socket.on('all-answered', function(msg) {
+      const { allAnswers, answers } = msg
+      self.answers = answers
+      self.allAnswers = allAnswers
+      const decrementTimer = setInterval(() => {
+        if (self.game.breakTimer === 1) {
+          clearInterval(decrementTimer)
+          self.questionNumber++
+          self.game.breakTimer = 10
+          self.game.loadStatus = 'START'
+          self.answers = []
+        }
+        self.game.breakTimer--
+      }, 1000)
     })
   }
 }

@@ -15,42 +15,76 @@
           v-for="user in allUsers"
           :key="user.id"
           class="col user-col"
-          @click="onClickAnswer(user.socketId)"
+          @click="onClickAnswer(user)"
         >
           <img :src="user.imageUrl" class="img-thumbnail" />
           {{ user.displayName }}
         </div>
       </div>
     </div>
+
+    <hr />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import socket from '~/plugins/socket.io.js'
 
 export default {
   props: ['tracks', 'user', 'allUsers', 'questionNumber', 'socketId'],
+  data() {
+    return {
+      answers: [],
+      timer: 15
+    }
+  },
   computed: {
     ...mapGetters({
       getUser: 'getUser'
     })
   },
   methods: {
-    onClickAnswer(socketId) {
+    onClickAnswer(user) {
       // TODO: add a time limit for question
-
+      const { socketId, displayName } = user
       if (socketId === this.tracks[this.questionNumber].socketId) {
         // user has answered correct
-        this.$emit('answerClick', true)
+        this.$emit('answerClick', {
+          displayName,
+          score: 1
+        })
+        // this.answers.push({
+        //   displayName,
+        //   score: 1
+        // })
       } else {
-        this.$emit('answerClick', false)
+        this.$emit('answerClick', {
+          displayName,
+          score: 0
+        })
+        // this.answers.push({
+        //   displayName,
+        //   score: 0
+        // })
       }
       // this.$emit('answerClick', socketId)
     }
   },
+  watch: {
+    answers() {
+      if (this.answers.length === this.allUsers.length) {
+        this.$emit('allUsersAnswered', this.answers)
+        this.answers = []
+      }
+    }
+  },
   mounted() {
-    console.log(this.tracks)
-    console.log(this.allUsers)
+    const self = this
+    socket.on('add-answered', function(msg) {
+      const answer = msg
+      self.answers.push(answer)
+    })
   }
 }
 </script>
