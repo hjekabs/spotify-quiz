@@ -1,3 +1,5 @@
+const Chance = require('chance')
+
 export const gameData = allUsers => {
   // later dynamically define users
   const questions = 10
@@ -21,7 +23,9 @@ export const gameData = allUsers => {
     initialSongsPerUser = nextSongsPerUser
   }
 
-  const shuffledGameData = shuffle(gameData)
+  const chance = new Chance(123)
+  const shuffledGameData = chance.shuffle(gameData)
+  console.log(shuffledGameData)
 
   return shuffledGameData
 }
