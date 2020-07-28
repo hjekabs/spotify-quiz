@@ -1,6 +1,6 @@
 import http from 'http'
 import socketIO from 'socket.io'
-import { GameUsers } from '../utils/users'
+import { GameUsers, UserAnswers } from '../utils/users'
 
 export default function() {
   this.nuxt.hook('render:before', renderer => {
@@ -17,6 +17,7 @@ export default function() {
 
     // create the Users class
     const gameUsers = new GameUsers()
+    const answers = new UserAnswers()
 
     io.on('connection', socket => {
       // user has joined the game
@@ -42,11 +43,20 @@ export default function() {
       socket.on('clicked-start-game', function(msg) {
         const pin = msg
         io.to(`game-${pin}`).emit('start-game')
+        // create a answer class instance
+        global[`answersPin-${pin}`] = answers
+        console.log(global[`answersPin-${pin}`])
       })
 
       socket.on('user-answered-question', function(msg) {
-        console.log('user answered answer and coming from:')
-        console.log(socket.id)
+        const { pin, correctAsnwer } = msg
+        const socketId = socket.id
+        global[`answersPin-${pin}`].addAnswer({
+          socketId,
+          correctAsnwer
+        })
+        console.log(global[`answersPin-${pin}`].getAnswers())
+        console.log(global)
       })
 
       // user has diconnected

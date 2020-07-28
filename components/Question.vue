@@ -15,7 +15,7 @@
           v-for="user in allUsers"
           :key="user.id"
           class="col user-col"
-          @click="onClickAnswer(tracks[questionNumber].socketId)"
+          @click="onClickAnswer(user.socketId)"
         >
           <img :src="user.imageUrl" class="img-thumbnail" />
           {{ user.displayName }}
@@ -36,10 +36,16 @@ export default {
     })
   },
   methods: {
-    onClickAnswer(event) {
-      console.log('click on question')
-      console.log(event)
-      // this.$emit('answerClick', 'some value')
+    onClickAnswer(socketId) {
+      // TODO: add a time limit for question
+
+      if (socketId === this.tracks[this.questionNumber].socketId) {
+        // user has answered correct
+        this.$emit('answerClick', true)
+      } else {
+        this.$emit('answerClick', false)
+      }
+      // this.$emit('answerClick', socketId)
     }
   },
   mounted() {

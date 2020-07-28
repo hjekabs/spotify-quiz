@@ -26,4 +26,18 @@ class GameUsers {
   }
 }
 
-export { GameUsers }
+class UserAnswers {
+  constructor() {
+    this.answers = []
+  }
+
+  getAnswers() {
+    return this.answers
+  }
+
+  addAnswer(answer) {
+    this.answers.push(answer)
+  }
+}
+
+export { GameUsers, UserAnswers }

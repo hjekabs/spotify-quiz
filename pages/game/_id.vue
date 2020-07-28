@@ -98,9 +98,13 @@ export default {
     emitReadyGame() {
       socket.emit('clicked-start-game', this.pin)
     },
-    questionAnswered(value) {
-      console.log('wtf')
-      socket.emit('user-answered-question', this.pin)
+    questionAnswered(correctAsnwer) {
+      const pin = this.pin
+      socket.emit('user-answered-question', {
+        pin,
+        correctAsnwer
+      })
+      this.questionNumber++
     },
     alertSocket() {
       alert(this.socketId)
