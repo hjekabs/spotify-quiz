@@ -60,15 +60,18 @@ export default function() {
 
       socket.on('all-users-answered-question', function(msg) {
         const { pin, answers } = msg
+        const socketId = socket.id
         const allAnswers = global[`answersPin-${pin}`].getAnswers()
         io.to(`game-${pin}`).emit('all-answered', {
           allAnswers,
-          answers
+          answers,
+          socketId
         })
       })
 
       // user has diconnected
       socket.on('disconnect', function() {
+        console.log('disconnect')
         const pin = gameUsers.userPin(socket.id)
         gameUsers.removeUser(socket.id)
         io.to(`game-${pin}`).emit('game-ready-users', {

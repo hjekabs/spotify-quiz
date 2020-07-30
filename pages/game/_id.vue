@@ -68,7 +68,8 @@ export default {
       game: {
         loadStatus: 'INITIAL',
         startTimer: 3,
-        breakTimer: 10
+        breakTimer: 10,
+        breakTimerStarted: true
       },
       answers: [],
       allAnswers: [],
@@ -120,6 +121,35 @@ export default {
         pin,
         answers
       })
+    },
+    answerBreak(socketId) {
+      const self = this
+      this.breakTimerStarted = true
+      // this.assignTimer(`timer-${socketId}`, 10)
+      // const decrementTimer = setInterval(() => {
+      //   if (self.game[`timer-${socketId}`] === 1) {
+      //     clearInterval(decrementTimer)
+      //     self.questionNumber++
+      //     self.game[`timer-${socketId}`] = 10
+      //     self.game.loadStatus = 'START'
+      //     self.answers = []
+      //   }
+      //   self.game[`timer-${socketId}`]--
+      // }, 1000)
+      const decrementTimer = setInterval(() => {
+        if (self.game.breakTimer === 1) {
+          clearInterval(decrementTimer)
+          self.questionNumber++
+          self.game.breakTimer = 10
+          self.game.loadStatus = 'START'
+          self.answers = []
+          self.game.breakTimerStarted = true
+        }
+        self.game.breakTimer--
+      }, 1000)
+    },
+    assignTimer(prop, val) {
+      this.game[prop] = val
     }
   },
 
@@ -146,19 +176,15 @@ export default {
     })
 
     socket.on('all-answered', function(msg) {
-      const { allAnswers, answers } = msg
+      // we can create dynamic timer variables for each socket id
+      const { allAnswers, answers, socketId } = msg
       self.answers = answers
       self.allAnswers = allAnswers
-      const decrementTimer = setInterval(() => {
-        if (self.game.breakTimer === 1) {
-          clearInterval(decrementTimer)
-          self.questionNumber++
-          self.game.breakTimer = 10
-          self.game.loadStatus = 'START'
-          self.answers = []
-        }
-        self.game.breakTimer--
-      }, 1000)
+
+      if (self.game.breakTimerStarted) {
+        self.answerBreak(socketId)
+      }
+      self.game.breakTimerStarted = false
     })
   }
 }

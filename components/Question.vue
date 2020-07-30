@@ -54,26 +54,18 @@ export default {
           displayName,
           score: 1
         })
-        // this.answers.push({
-        //   displayName,
-        //   score: 1
-        // })
       } else {
         this.$emit('answerClick', {
           displayName,
           score: 0
         })
-        // this.answers.push({
-        //   displayName,
-        //   score: 0
-        // })
       }
-      // this.$emit('answerClick', socketId)
     }
   },
   watch: {
     answers() {
       if (this.answers.length === this.allUsers.length) {
+        console.log('emiting all user answered')
         this.$emit('allUsersAnswered', this.answers)
         this.answers = []
       }
