@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <h1>You can now join a game</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col col-md-6">
+        <h1>You can now join a game</h1>
 
-    <hr />
+        <hr />
 
-    <label for>Enter a game pin</label>
-    <input type="text" v-model.lazy="gamePin" />
-    <p>You will join game: {{ gamePin }}</p>
-    <button class="btn btn-primary" @click="joinGame">Join a game</button>
+        <label for>Enter a game pin</label>
+        <input type="text" class="form-control" v-model.lazy="gamePin" />
+        <button class="btn btn-primary mt-2" @click="joinGame">Join a game</button>
+      </div>
+    </div>
   </div>
 </template>
 
