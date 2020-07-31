@@ -72,11 +72,21 @@ export default {
     }
   },
   mounted() {
+    console.log('mounted')
     const self = this
     socket.on('add-answered', function(msg) {
       const answer = msg
       self.answers.push(answer)
     })
+    if (this.tracks[this.questionNumber].trackPreviewUrl) {
+      const audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)
+      console.log(audio)
+      audio.play()
+    }
+  },
+  beforeDestroy() {
+    console.log('about to destroy')
+    console.log(this.tracks.trackPreviewUrl)
   }
 }
 </script>

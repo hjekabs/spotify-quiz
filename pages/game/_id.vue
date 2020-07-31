@@ -13,9 +13,7 @@
 
       <p>Tracks:</p>
       <ul>
-        <li v-for="track in tracks" :key="track.id">
-          {{ track.tracks }} belongs for track.socketId
-        </li>
+        <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
       </ul>
 
       <button @click="emitReadyGame">start game</button>
@@ -42,11 +40,11 @@
     <div v-else-if="game.loadStatus === 'ANSWER_BREAK'">
       <h1>All users have answered now</h1>
       <p>{{ answers }}</p>
-      <p>
-        All answers:
-        {{ allAnswers }}
-      </p>
       <h2>Next question starts in: {{ game.breakTimer }}</h2>
+    </div>
+    <div v-else-if="game.loadStatus === 'GAME_OVER'">
+      <h1>Game over!</h1>
+      <p>{{ allAnswers }}</p>
     </div>
   </div>
 </template>
@@ -125,17 +123,6 @@ export default {
     answerBreak(socketId) {
       const self = this
       this.breakTimerStarted = true
-      // this.assignTimer(`timer-${socketId}`, 10)
-      // const decrementTimer = setInterval(() => {
-      //   if (self.game[`timer-${socketId}`] === 1) {
-      //     clearInterval(decrementTimer)
-      //     self.questionNumber++
-      //     self.game[`timer-${socketId}`] = 10
-      //     self.game.loadStatus = 'START'
-      //     self.answers = []
-      //   }
-      //   self.game[`timer-${socketId}`]--
-      // }, 1000)
       const decrementTimer = setInterval(() => {
         if (self.game.breakTimer === 1) {
           clearInterval(decrementTimer)
@@ -150,6 +137,15 @@ export default {
     },
     assignTimer(prop, val) {
       this.game[prop] = val
+    }
+  },
+  watch: {
+    questionNumber() {
+      console.log(this.questionNumber)
+      console.log(this.tracks.length)
+      if (this.questionNumber >= this.tracks.length) {
+        this.game.loadStatus = 'GAME_OVER'
+      }
     }
   },
 
