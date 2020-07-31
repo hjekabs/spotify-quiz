@@ -1,2 +1,16 @@
+// Modify bootstrap variables
+$theme-colors: (
+  'primary': #1db954
+);
+
+$body-bg: #212121;
+$body-color: #b3b3b3;
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+
 // add bootstrap core
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
