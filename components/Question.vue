@@ -98,11 +98,21 @@ export default {
 }
 
 .user-col {
-  border: 2px solid rgb(109, 86, 86);
+  border: 1px solid;
+  background-color: transparent;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 10px 20px;
+  font-weight: light;
+  color: #4cc9f0;
 }
 
 .user-col:hover {
-  background-color: rgb(236, 235, 235);
+  background-color: #4cc9f0;
+  -webkit-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
+  -moz-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
+  box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
   cursor: pointer;
+  color: white;
 }
 </style>
