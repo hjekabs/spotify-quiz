@@ -6,7 +6,10 @@ $theme-colors: (
 $body-bg: #212121;
 $body-color: #b3b3b3;
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/BigSpace-rPKx.ttf');
+}
 
 // add bootstrap core
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';

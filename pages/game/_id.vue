@@ -1,30 +1,33 @@
 <template>
-  <div>
-    <div v-if="game.loadStatus === 'INITIAL'">
-      <h1>This is the game lobby</h1>
+  <div class="w-100 h-100">
+    <div
+      v-if="game.loadStatus === 'INITIAL'"
+      class="h-100 d-flex flex-column justify-content-between"
+    >
+      <div class="row p-3">
+        <div class="col h1 py-4">
+          Join with:
+          <span class="start-text text-primary">{{ this.$route.query.id }}</span>
+        </div>
+        <div class="col text-right" v-if="isAdmin === true">
+          <button class="btn btn-outline-primary p-4 start-button" @click="emitReadyGame">start game</button>
+        </div>
+      </div>
 
-      <p>Users in this game lobby:</p>
-      <ul>
-        <li v-for="user in users" :key="user.id">
-          {{ user.displayName }}
-          with socketId {{ user.socketId }}
-        </li>
-      </ul>
-
-      <p>Tracks:</p>
-      <ul>
-        <li v-for="track in tracks" :key="track.id">{{ track.tracks }} belongs for track.socketId</li>
-      </ul>
-
-      <button @click="emitReadyGame">start game</button>
+      <div class="users-container w-100 h-100 flex-1">
+        <div class="row"></div>
+      </div>
     </div>
-    <div v-else-if="game.loadStatus === 'LOADING'">
+    <!-- <div v-else-if="game.loadStatus === 'LOADING'">
       Setting up the game, please wait...
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
       </div>
+    </div>-->
+    <div v-else-if="game.loadStatus === 'GETREADY'" class="text-center">
+      <h1>Game starts in</h1>
+      <div class="start-text text-primary">{{ game.startTimer }}</div>
     </div>
-    <div v-else-if="game.loadStatus === 'GETREADY'">{{ game.startTimer }}</div>
     <div v-else-if="game.loadStatus === 'START'">
       <!-- Question component -->
       <Question
@@ -65,20 +68,24 @@ export default {
       tracks: [],
       game: {
         loadStatus: 'INITIAL',
-        startTimer: 3,
+        startTimer: 5,
         breakTimer: 10,
         breakTimerStarted: true
       },
       answers: [],
       allAnswers: [],
-      questionNumber: 0
+      questionNumber: 0,
+      isAdmin: false
     }
   },
 
   computed: {
     ...mapGetters({
       getUser: 'getUser'
-    })
+    }),
+    progressWidth() {
+      return 100 / this.startTimer
+    }
   },
 
   methods: {
@@ -86,7 +93,7 @@ export default {
       addUser: 'addUser'
     }),
     readyGame() {
-      this.game.loadStatus = 'LOADING'
+      this.game.loadStatus = 'GETREADY'
       this.tracks = gameData(this.users)
 
       if (this.tracks.length) {
@@ -151,6 +158,11 @@ export default {
 
   mounted() {
     const gamePin = this.$route.query.id
+    const isAdmin = this.$route.query.admin
+
+    if (isAdmin === 'true') {
+      this.isAdmin = true
+    }
     const self = this
     socket.emit('user-joined-game', {
       pin: gamePin,
@@ -186,4 +198,21 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.start-button,
+.start-text {
+  font-size: 3rem;
+}
+
+.start-button:hover {
+  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  cursor: pointer;
+  color: white;
+}
+
+.users-container {
+  background-color: #121212;
+}
+</style>

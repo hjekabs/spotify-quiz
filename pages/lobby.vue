@@ -1,14 +1,35 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col col-md-6">
-        <h1>You can now join a game</h1>
+  <div class="container h-100">
+    <div class="row justify-content-center h-100">
+      <div class="col-12 col-md-8 d-flex flex-column justify-content-around">
+        <div>
+          <label class="h1 mb-2">Enter a game pin</label>
+          <form>
+            <div class="row">
+              <div class="col col-md-8">
+                <input
+                  type="text"
+                  class="form-control pin-input h-100 w-100 p-5"
+                  v-model.lazy="gamePin"
+                  maxlength="8"
+                />
+              </div>
+              <div class="col-12 col-md-4 mt-2 mt-md-0">
+                <button
+                  class="btn btn-outline-primary h-100 w-100 join-button"
+                  @click="joinGame"
+                >Join</button>
+              </div>
+            </div>
+          </form>
+        </div>
 
-        <hr />
-
-        <label for>Enter a game pin</label>
-        <input type="text" class="form-control" v-model.lazy="gamePin" />
-        <button class="btn btn-primary mt-2" @click="joinGame">Join a game</button>
+        <div class="text-center">
+          <button
+            class="btn p-3 btn-outline-primary mt-5 join-button"
+            @click="generateGame"
+          >Create a game</button>
+        </div>
       </div>
     </div>
   </div>
@@ -38,11 +59,33 @@ export default {
     joinGame() {
       const self = this
       this.$router.push({
-        path: `/game?id=${this.gamePin}`
+        path: `/game?id=${self.gamePin}`
+      })
+    },
+    generateGame() {
+      const gamePin = Math.floor(Math.random() * 10000000)
+      this.$router.push({
+        path: `/game?id=${gamePin}&admin=true`
       })
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.pin-input {
+  font-size: 6rem;
+}
+
+.join-button {
+  font-size: 4rem;
+}
+
+.join-button:hover {
+  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  cursor: pointer;
+  color: white;
+}
+</style>
