@@ -72,21 +72,26 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted')
     const self = this
+    if (this.tracks[this.questionNumber].trackPreviewUrl) {
+      this.audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)
+      this.audio.play()
+    }
+
+    const startTimer = setInterval(() => {
+      if (self.timer === 1) {
+        clearInterval(startTimer)
+      }
+      self.timer--
+    }, 1000)
+
     socket.on('add-answered', function(msg) {
       const answer = msg
       self.answers.push(answer)
     })
-    if (this.tracks[this.questionNumber].trackPreviewUrl) {
-      const audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)
-      console.log(audio)
-      audio.play()
-    }
   },
   beforeDestroy() {
-    console.log('about to destroy')
-    console.log(this.tracks.trackPreviewUrl)
+    this.audio.pause()
   }
 }
 </script>

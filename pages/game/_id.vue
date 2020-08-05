@@ -5,17 +5,40 @@
       class="h-100 d-flex flex-column justify-content-between"
     >
       <div class="row p-3">
-        <div class="col h1 py-4">
+        <div class="col-12 col-md-6 h1 py-4">
           Join with:
-          <span class="start-text text-primary">{{ this.$route.query.id }}</span>
+          <span class="start-text text-primary">{{
+            this.$route.query.id
+          }}</span>
         </div>
-        <div class="col text-right" v-if="isAdmin === true">
-          <button class="btn btn-outline-primary p-4 start-button" @click="emitReadyGame">start game</button>
+        <div
+          class="col-12 col-md-6 text-center text-md-right"
+          v-if="isAdmin === true"
+        >
+          <button
+            class="btn btn-outline-primary p-4 start-button"
+            @click="emitReadyGame"
+          >
+            start game
+          </button>
         </div>
       </div>
 
-      <div class="users-container w-100 h-100 flex-1">
-        <div class="row"></div>
+      <div class="users-container w-100 h-100 flex-1 p-5">
+        <div class="row">
+          <div
+            v-for="user in users"
+            :key="user.id"
+            class="col-12 col-md-6 text-center"
+          >
+            <div>
+              <p class="user-lobby-card animate__animated animate__flipInX h2">
+                <img :src="user.imageUrl" alt class="user-avatar" />
+                {{ user.displayName }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- <div v-else-if="game.loadStatus === 'LOADING'">
@@ -148,8 +171,6 @@ export default {
   },
   watch: {
     questionNumber() {
-      console.log(this.questionNumber)
-      console.log(this.tracks.length)
       if (this.questionNumber >= this.tracks.length) {
         this.game.loadStatus = 'GAME_OVER'
       }

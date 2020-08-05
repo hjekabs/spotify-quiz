@@ -4,31 +4,33 @@
       <div class="col-12 col-md-8 d-flex flex-column justify-content-around">
         <div>
           <label class="h1 mb-2">Enter a game pin</label>
-          <form>
-            <div class="row">
-              <div class="col col-md-8">
-                <input
-                  type="text"
-                  class="form-control pin-input h-100 w-100 p-5"
-                  v-model.lazy="gamePin"
-                  maxlength="8"
-                />
-              </div>
-              <div class="col-12 col-md-4 mt-2 mt-md-0">
-                <button
-                  class="btn btn-outline-primary h-100 w-100 join-button"
-                  @click="joinGame"
-                >Join</button>
-              </div>
+          <div class="row">
+            <div class="col col-md-8">
+              <input
+                type="text"
+                class="form-control pin-input h-100 w-100 p-5"
+                v-model.lazy="gamePin"
+                maxlength="8"
+              />
             </div>
-          </form>
+            <div class="col-12 col-md-4 mt-2 mt-md-0">
+              <button
+                class="btn btn-outline-primary h-100 w-100 join-button"
+                @click="joinGame"
+              >
+                Join
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="text-center">
           <button
             class="btn p-3 btn-outline-primary mt-5 join-button"
             @click="generateGame"
-          >Create a game</button>
+          >
+            Create a game
+          </button>
         </div>
       </div>
     </div>
@@ -57,9 +59,9 @@ export default {
 
   methods: {
     joinGame() {
-      const self = this
+      const pin = this.gamePin
       this.$router.push({
-        path: `/game?id=${self.gamePin}`
+        path: `/game?id=${pin}`
       })
     },
     generateGame() {

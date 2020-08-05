@@ -24,6 +24,7 @@ export default function() {
       socket.on('user-joined-game', function(msg) {
         const { pin, user } = msg
         socket.join(`game-${pin}`)
+        console.log(`user joined with ${pin}`)
         gameUsers.addUser({
           ...user,
           socketId: socket.id,
@@ -45,7 +46,6 @@ export default function() {
         io.to(`game-${pin}`).emit('start-game')
         // create a answer class instance
         global[`answersPin-${pin}`] = answers
-        console.log(global[`answersPin-${pin}`])
       })
 
       socket.on('user-answered-question', function(msg) {
@@ -55,6 +55,8 @@ export default function() {
           socketId,
           answer
         })
+        // answer = {displayName, score}
+
         io.to(`game-${pin}`).emit('add-answered', answer)
       })
 
@@ -71,7 +73,6 @@ export default function() {
 
       // user has diconnected
       socket.on('disconnect', function() {
-        console.log('disconnect')
         const pin = gameUsers.userPin(socket.id)
         gameUsers.removeUser(socket.id)
         io.to(`game-${pin}`).emit('game-ready-users', {

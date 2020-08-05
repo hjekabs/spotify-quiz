@@ -14,6 +14,15 @@ $body-color: #b3b3b3;
 // add bootstrap core
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
+// add animate css
+@import '../../node_modules/animate.css/animate.min.css';
+
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
