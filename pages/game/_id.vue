@@ -182,7 +182,7 @@ export default {
     const isAdmin = this.$route.query.admin
 
     // set the user from localstorage
-    this.user = JSON.parse(localStorage.getItem('user'))
+    this.user = JSON.parse(sessionStorage.getItem('user'))
 
     if (isAdmin === 'true') {
       this.isAdmin = true
@@ -190,7 +190,7 @@ export default {
     const self = this
     socket.emit('user-joined-game', {
       pin: gamePin,
-      user: self.getUser
+      user: self.user
     })
 
     socket.on('game-ready-users', function(msg) {
