@@ -62,7 +62,7 @@ export default {
       } else {
         this.$emit('answerClick', {
           displayName,
-          score
+          score: 0
         })
       }
     }

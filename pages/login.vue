@@ -3,9 +3,13 @@
     <div class="col col-md-6 d-flex justify-content-center align-items-center">
       <img src="~assets/img/login-game-friends.svg" alt />
     </div>
-    <div class="col col-md-6 d-flex flex-column justify-content-center align-items-center">
+    <div
+      class="col col-md-6 d-flex flex-column justify-content-center align-items-center"
+    >
       <h1>Spotify quiz</h1>
-      <button class="btn btn-primary mt-3" @click="login">Sign in with spotify</button>
+      <button class="btn btn-primary mt-3" @click="login">
+        Sign in with spotify
+      </button>
     </div>
   </div>
 </template>

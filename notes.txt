@@ -1,3 +1,10 @@
 https://nuxtjs.org/guide/vuex-store/#the-nuxtserverinit-action
 
 ^ check for how to give data from the server to the client in nuxt js
+
+
+
+https://tablericons.com/ <--- use for icons
+
+
+https://lawsofux.com/

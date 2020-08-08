@@ -74,20 +74,4 @@ export default {
 }
 </script>
 
-<style>
-.pin-input {
-  font-size: 6rem;
-}
-
-.join-button {
-  font-size: 4rem;
-}
-
-.join-button:hover {
-  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
-  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
-  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
-  cursor: pointer;
-  color: white;
-}
-</style>
+<style></style>

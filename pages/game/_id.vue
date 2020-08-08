@@ -5,7 +5,7 @@
       class="h-100 d-flex flex-column justify-content-between"
     >
       <div class="row p-3">
-        <div class="col-12 col-md-6 h1 py-4">
+        <div class="col-12 col-md-6 py-4 text-center text-md-left">
           Join with:
           <span class="start-text text-primary">
             {{ this.$route.query.id }}
@@ -16,7 +16,7 @@
           v-if="isAdmin === true"
         >
           <button
-            class="btn btn-outline-primary p-4 start-button"
+            class="btn btn-outline-primary p-md-4 start-button"
             @click="emitReadyGame"
           >
             start game
@@ -32,7 +32,7 @@
             class="col-12 col-md-6 text-center"
           >
             <div>
-              <p class="user-lobby-card animate__animated animate__flipInX h2">
+              <p class="user-lobby-card animate__animated animate__flipInX">
                 <img :src="user.imageUrl" alt class="user-avatar" />
                 {{ user.displayName }}
               </p>
@@ -47,9 +47,14 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>-->
-    <div v-else-if="game.loadStatus === 'GETREADY'" class="text-center">
-      <h1>Game starts in</h1>
-      <div class="start-text text-primary">{{ game.startTimer }}</div>
+    <div
+      v-else-if="game.loadStatus === 'GETREADY'"
+      class="h-100 d-flex flex-column align-items-center justify-content-center"
+    >
+      <div class="text-center">
+        <h1>Game starts in</h1>
+        <div class="start-text text-primary">{{ game.startTimer }}</div>
+      </div>
     </div>
     <div v-else-if="game.loadStatus === 'START'">
       <!-- Question component -->
@@ -112,9 +117,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations({
-      addUser: 'addUser'
-    }),
     readyGame() {
       this.game.loadStatus = 'GETREADY'
       this.tracks = gameData(this.users)
@@ -194,12 +196,11 @@ export default {
     })
 
     socket.on('game-ready-users', function(msg) {
-      const { user, allUsers, socketId, pin } = msg
+      const { allUsers, socketId, pin } = msg
+      console.log(allUsers)
       self.users = allUsers
-      // self.user = user
       self.pin = pin
       self.socketId = socketId
-      self.addUser({ ...user, socketId: socketId })
     })
 
     // start the game for all users
@@ -219,19 +220,14 @@ export default {
       self.game.breakTimerStarted = false
     })
 
-    socket.on('user-left-the-game', function(msg) {
-      self.$router.push('/lobby')
-    })
+    // socket.on('user-left-the-game', function(msg) {
+    //   self.$router.push('/lobby')
+    // })
   }
 }
 </script>
 
 <style lang="scss">
-.start-button,
-.start-text {
-  font-size: 3rem;
-}
-
 .start-button:hover {
   -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
   -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);

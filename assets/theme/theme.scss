@@ -26,3 +26,32 @@ body {
   height: 50px;
   border-radius: 50%;
 }
+
+.pin-input {
+  font-size: 6rem;
+}
+
+.join-button {
+  font-size: 4rem;
+}
+
+.join-button:hover {
+  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  cursor: pointer;
+  color: white;
+}
+
+// inside game lobby and game
+
+@include media-breakpoint-up(md) {
+  .start-button,
+  .start-text {
+    font-size: 3rem;
+  }
+
+  .user-lobby-card {
+    font-size: 1.5rem;
+  }
+}

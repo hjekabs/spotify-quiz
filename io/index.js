@@ -24,7 +24,7 @@ export default function() {
       socket.on('user-joined-game', function(msg) {
         const { pin, user } = msg
         socket.join(`game-${pin}`)
-        global[`gameUsers-${pin}`] = new GameUsers()
+        global[`gameUsers-${pin}`] = gameUsers
         global[`gameUsers-${pin}`].addUser({
           ...user,
           socketId: socket.id,
@@ -36,7 +36,6 @@ export default function() {
         // return to lobby all users
         io.to(`game-${pin}`).emit('game-ready-users', {
           allUsers: global[`gameUsers-${pin}`].getUsers(),
-          user,
           socketId: socket.id,
           pin
         })
@@ -47,7 +46,7 @@ export default function() {
         const pin = msg
         io.to(`game-${pin}`).emit('start-game')
         // create a answer class instance
-        global[`answersPin-${pin}`] = new UserAnswers()
+        global[`answersPin-${pin}`] = answers
       })
 
       socket.on('user-answered-question', function(msg) {
@@ -82,7 +81,6 @@ export default function() {
         })
 
         if (pin) {
-          console.log('dsmkakdnkjasndjkasnjkdas')
           // if somebody left from the game pin it's over
           console.log('user left')
 
