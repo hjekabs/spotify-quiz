@@ -70,6 +70,10 @@ export default {
         path: `/game?id=${gamePin}&admin=true`
       })
     }
+  },
+  mounted() {
+    const user = JSON.parse(localStorage.getItem('user'))
+    this.user = user
   }
 }
 </script>

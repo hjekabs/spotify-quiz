@@ -61,6 +61,9 @@ export default {
 
     // socket.emit('user-logged_in', user)
     this.addUser(user)
+    // we can now save this user in local storage
+    localStorage.setItem('user', JSON.stringify(user))
+
     this.$router.push('/lobby')
   }
 }
