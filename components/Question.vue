@@ -5,7 +5,9 @@
       class="h-100 w-100 d-flex align-items-center justify-content-center"
     >
       <div class="text-center">
-        <span>{{ tracks[questionNumber].trackName }}</span>
+        <span class="animate__animated animate__pulse">{{
+          tracks[questionNumber].trackName
+        }}</span>
         <div>
           <ProgressRing
             class="animate__animated animate__heartBeat mt-5"
@@ -22,10 +24,10 @@
         <div
           v-for="user in allUsers"
           :key="user.id"
-          class="col user-col"
+          class="col-12 col-md-6 text-center user-card"
           @click="onClickAnswer(user)"
         >
-          <img :src="user.imageUrl" class="img-thumbnail" />
+          <img :src="user.imageUrl" class="user-avatar" />
           {{ user.displayName }}
         </div>
       </div>
@@ -146,7 +148,7 @@ export default {
 </script>
 
 <style>
-.img-thumbnail {
+/* .img-thumbnail {
   width: 50px;
   height: 50px;
 }
@@ -168,5 +170,5 @@ export default {
   box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
   cursor: pointer;
   color: white;
-}
+} */
 </style>

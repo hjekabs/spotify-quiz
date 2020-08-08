@@ -31,10 +31,6 @@ body {
   font-size: 6rem;
 }
 
-.join-button {
-  font-size: 4rem;
-}
-
 .join-button:hover {
   -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
   -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
@@ -45,19 +41,20 @@ body {
 
 // inside game lobby and game
 
+circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
 @include media-breakpoint-up(md) {
   .start-button,
-  .start-text {
+  .start-text,
+  .join-button {
     font-size: 3rem;
   }
 
   .user-lobby-card {
     font-size: 1.5rem;
   }
-}
-
-circle {
-  transition: stroke-dashoffset 0.35s;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
 }

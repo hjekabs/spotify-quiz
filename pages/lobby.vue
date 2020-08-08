@@ -1,14 +1,14 @@
 <template>
   <div class="container h-100">
     <div class="row justify-content-center h-100">
-      <div class="col-12 col-md-8 d-flex flex-column justify-content-around">
-        <div>
+      <div class="col-12 col-md-8 d-flex flex-column justify-content-center">
+        <div class="py-5">
           <label class="h1 mb-2">Enter a game pin</label>
           <div class="row">
             <div class="col col-md-8">
               <input
                 type="text"
-                class="form-control pin-input h-100 w-100 p-5"
+                class="form-control pin-input h-100 w-100"
                 v-model.lazy="gamePin"
                 maxlength="8"
               />
@@ -24,9 +24,9 @@
           </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center border-top border-light py-5">
           <button
-            class="btn p-3 btn-outline-primary mt-5 join-button"
+            class="btn w-100 btn-outline-primary join-button"
             @click="generateGame"
           >
             Create a game

@@ -10,14 +10,8 @@
       :cx="radius"
       :cy="radius"
     />
-    <text
-      x="50%"
-      y="50%"
-      text-anchor="middle"
-      stroke="#1db954"
-      stroke-width="2px"
-    >
-      Get Ready.
+    <text x="50%" y="50%" text-anchor="middle" stroke="white">
+      Get Ready
     </text>
   </svg>
 </template>
@@ -27,7 +21,8 @@ export default {
   props: {
     radius: Number,
     progress: Number,
-    stroke: Number
+    stroke: Number,
+    timer: Number
   },
   data() {
     const normalizedRadius = this.radius - this.stroke * 2
