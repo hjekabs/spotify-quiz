@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="users-container w-100 h-100 flex-1 p-5">
+      <div class="dark-background w-100 h-100 flex-1 p-5">
         <div class="row">
           <div
             v-for="user in users"
@@ -228,9 +228,5 @@ export default {
   box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
   cursor: pointer;
   color: white;
-}
-
-.users-container {
-  background-color: #121212;
 }
 </style>

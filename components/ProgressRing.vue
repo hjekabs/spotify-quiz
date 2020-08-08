@@ -10,7 +10,7 @@
       :cx="radius"
       :cy="radius"
     />
-    <text x="50%" y="50%" text-anchor="middle" stroke="white">
+    <text x="50%" y="50%" text-anchor="middle">
       Get Ready
     </text>
   </svg>

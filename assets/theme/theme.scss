@@ -8,7 +8,7 @@ $body-color: #b3b3b3;
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('../fonts/BigSpace-rPKx.ttf');
+  src: url('../fonts/IBMPlexMono-Medium.ttf');
 }
 
 // add bootstrap core
@@ -39,6 +39,10 @@ body {
   color: white;
 }
 
+.dark-background {
+  background-color: #1d1d1d;
+}
+
 // inside game lobby and game
 
 circle {
@@ -57,4 +61,7 @@ circle {
   .user-lobby-card {
     font-size: 1.5rem;
   }
+}
+
+.user-card {
 }

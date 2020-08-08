@@ -12,8 +12,8 @@
           <ProgressRing
             class="animate__animated animate__heartBeat mt-5"
             :progress="songProgress"
-            :radius="100"
-            :stroke="4"
+            :radius="150"
+            :stroke="8"
           />
         </div>
       </div>
