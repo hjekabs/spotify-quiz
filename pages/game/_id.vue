@@ -41,12 +41,6 @@
         </div>
       </div>
     </div>
-    <!-- <div v-else-if="game.loadStatus === 'LOADING'">
-      Setting up the game, please wait...
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>-->
     <div
       v-else-if="game.loadStatus === 'GETREADY'"
       class="h-100 d-flex flex-column align-items-center justify-content-center"
@@ -56,7 +50,7 @@
         <div class="start-text text-primary">{{ game.startTimer }}</div>
       </div>
     </div>
-    <div v-else-if="game.loadStatus === 'START'">
+    <div v-else-if="game.loadStatus === 'START'" class="w-100 h-100">
       <!-- Question component -->
       <Question
         :tracks="tracks"

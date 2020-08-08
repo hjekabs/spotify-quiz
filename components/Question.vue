@@ -1,13 +1,21 @@
 <template>
   <div class="w-100 h-100">
-    <div v-if="showAnswerSong">
-      {{ tracks[questionNumber].trackName }}
-      {{ tracks[questionNumber].socketId }}
-      Preview ends in: {{ songTimer }}
+    <div
+      v-if="showAnswerSong"
+      class="h-100 w-100 d-flex align-items-center justify-content-center"
+    >
+      <div class="text-center">
+        <span>{{ tracks[questionNumber].trackName }}</span>
+        <div>
+          <ProgressRing
+            class="animate__animated animate__heartBeat mt-5"
+            :progress="songProgress"
+            :radius="100"
+            :stroke="4"
+          />
+        </div>
+      </div>
     </div>
-
-    <hr />
-
     <div class="container" v-if="showAnswerOptions">
       Answer in: {{ optionsTimer }}
       <div class="row">
@@ -22,21 +30,24 @@
         </div>
       </div>
     </div>
-
-    <hr />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import socket from '~/plugins/socket.io.js'
+import ProgressRing from '~/components/ProgressRing.vue'
 
 export default {
+  components: {
+    ProgressRing
+  },
   props: ['tracks', 'user', 'allUsers', 'questionNumber', 'socketId'],
   data() {
     return {
       answers: [],
       songTimer: 10,
+      songProgress: 0,
       optionsTimer: 10,
       showAnswerSong: true,
       showAnswerOptions: false,
@@ -115,6 +126,13 @@ export default {
       }
       self.songTimer--
     }, 1000)
+
+    const startSongProgressTimer = setInterval(() => {
+      self.songProgress += 1
+      if (self.songProgress === 100) {
+        clearInterval(startSongProgressTimer)
+      }
+    }, 100)
 
     socket.on('add-answered', function(msg) {
       const answer = msg
