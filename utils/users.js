@@ -38,6 +38,10 @@ class UserAnswers {
   addAnswer(answer) {
     this.answers.push(answer)
   }
+
+  removeAnswers() {
+    this.answers = []
+  }
 }
 
 export { GameUsers, UserAnswers }

@@ -78,6 +78,17 @@ export default function() {
         io.to(`game-${pin}`).emit('game-ready-users', {
           allUsers: gameUsers.getUsers()
         })
+
+        // if somebody left from the game pin it's over
+        console.log('user left')
+        global[`answersPin-${pin}`].removeAnswers()
+        console.log('remove everything')
+        console.log(global[`answersPin-${pin}`].getAnswers())
+        console.log('instance should still be in global')
+        console.log(global[`answersPin-${pin}`])
+        delete global[`answersPin-${pin}`]
+        console.log('instance should not be in global anymore')
+        console.log(global[`answersPin-${pin}`])
       })
     })
   })
