@@ -68,7 +68,8 @@ export default {
         access_token_endpoint: undefined,
         response_type: 'token',
         token_type: 'Bearer',
-        redirect_uri: process.env.BASE_URL || 'http://localhost:3000/callback',
+        redirect_uri:
+          `${process.env.BASE_URL}callback` || 'http://localhost:3000/callback',
         client_id: 'f79dd1f6402b41fe8828c55654cea80a',
         token_key: 'access_token'
       }
