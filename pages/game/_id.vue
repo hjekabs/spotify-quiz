@@ -7,30 +7,20 @@
       <div class="row p-3">
         <div class="col-12 col-md-6 h1 py-4">
           Join with:
-          <span class="start-text text-primary">{{
+          <span class="start-text text-primary">
+            {{
             this.$route.query.id
-          }}</span>
+            }}
+          </span>
         </div>
-        <div
-          class="col-12 col-md-6 text-center text-md-right"
-          v-if="isAdmin === true"
-        >
-          <button
-            class="btn btn-outline-primary p-4 start-button"
-            @click="emitReadyGame"
-          >
-            start game
-          </button>
+        <div class="col-12 col-md-6 text-center text-md-right" v-if="isAdmin === true">
+          <button class="btn btn-outline-primary p-4 start-button" @click="emitReadyGame">start game</button>
         </div>
       </div>
 
       <div class="users-container w-100 h-100 flex-1 p-5">
         <div class="row">
-          <div
-            v-for="user in users"
-            :key="user.id"
-            class="col-12 col-md-6 text-center"
-          >
+          <div v-for="user in users" :key="user.id" class="col-12 col-md-6 text-center">
             <div>
               <p class="user-lobby-card animate__animated animate__flipInX h2">
                 <img :src="user.imageUrl" alt class="user-avatar" />
@@ -214,6 +204,10 @@ export default {
         self.answerBreak(socketId)
       }
       self.game.breakTimerStarted = false
+    })
+
+    socket.on('user-left-the-game', function(msg) {
+      self.$router.push('/lobby')
     })
   }
 }

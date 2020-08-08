@@ -24,16 +24,18 @@ export default function() {
       socket.on('user-joined-game', function(msg) {
         const { pin, user } = msg
         socket.join(`game-${pin}`)
-        console.log(`user joined with ${pin}`)
-        gameUsers.addUser({
+        global[`gameUsers-${pin}`] = new GameUsers()
+        global[`gameUsers-${pin}`].addUser({
           ...user,
           socketId: socket.id,
           pin
         })
 
+        console.log(global[`gameUsers-${pin}`].getUsers())
+
         // return to lobby all users
         io.to(`game-${pin}`).emit('game-ready-users', {
-          allUsers: gameUsers.getUsers(),
+          allUsers: global[`gameUsers-${pin}`].getUsers(),
           user,
           socketId: socket.id,
           pin
@@ -45,7 +47,7 @@ export default function() {
         const pin = msg
         io.to(`game-${pin}`).emit('start-game')
         // create a answer class instance
-        global[`answersPin-${pin}`] = answers
+        global[`answersPin-${pin}`] = new UserAnswers()
       })
 
       socket.on('user-answered-question', function(msg) {
@@ -79,16 +81,20 @@ export default function() {
           allUsers: gameUsers.getUsers()
         })
 
-        // if somebody left from the game pin it's over
-        console.log('user left')
-        global[`answersPin-${pin}`].removeAnswers()
-        console.log('remove everything')
-        console.log(global[`answersPin-${pin}`].getAnswers())
-        console.log('instance should still be in global')
-        console.log(global[`answersPin-${pin}`])
-        delete global[`answersPin-${pin}`]
-        console.log('instance should not be in global anymore')
-        console.log(global[`answersPin-${pin}`])
+        if (pin) {
+          console.log('dsmkakdnkjasndjkasnjkdas')
+          // if somebody left from the game pin it's over
+          console.log('user left')
+
+          io.to(`game-${pin}`).emit('user-left-the-game')
+          if (global[`gameUsers-${pin}`]) {
+            global[`gameUsers-${pin}`].removeUser(socket.id)
+          }
+          if (global[`answersPin-${pin}`]) {
+            global[`answersPin-${pin}`].removeAnswers()
+            delete global[`answersPin-${pin}`]
+          }
+        }
       })
     })
   })
