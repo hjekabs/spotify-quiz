@@ -24,7 +24,7 @@
         <div
           v-for="user in allUsers"
           :key="user.id"
-          class="col-12 col-md-6 text-center user-card"
+          class="col-12 col-md-6 text-center user-card p-2 dark-background mb-2 btn btn-outline-primary user-game-button"
           @click="onClickAnswer(user)"
         >
           <img :src="user.imageUrl" class="user-avatar" />

@@ -63,5 +63,10 @@ circle {
   }
 }
 
-.user-card {
+.user-game-button:hover {
+  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
+  cursor: pointer;
+  color: white;
 }
