@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        {{ tracks[questionNumber].trackName }}
-        {{ tracks[questionNumber].socketId }}
-      </div>
+  <div class="w-100 h-100">
+    <div v-if="showAnswerSong">
+      {{ tracks[questionNumber].trackName }}
+      {{ tracks[questionNumber].socketId }}
+      Preview ends in: {{ songTimer }}
     </div>
 
     <hr />
 
-    <div class="container">
+    <div class="container" v-if="showAnswerOptions">
+      Answer in: {{ optionsTimer }}
       <div class="row">
         <div
           v-for="user in allUsers"
@@ -36,7 +36,11 @@ export default {
   data() {
     return {
       answers: [],
-      timer: 15
+      songTimer: 10,
+      optionsTimer: 10,
+      showAnswerSong: true,
+      showAnswerOptions: false,
+      maxScore: 1000
     }
   },
   computed: {
@@ -48,16 +52,17 @@ export default {
     onClickAnswer(user) {
       // TODO: add a time limit for question
       const { socketId, displayName } = user
+      const score = this.maxScore
       if (socketId === this.tracks[this.questionNumber].socketId) {
         // user has answered correct
         this.$emit('answerClick', {
           displayName,
-          score: 1
+          score
         })
       } else {
         this.$emit('answerClick', {
           displayName,
-          score: 0
+          score
         })
       }
     }
@@ -69,6 +74,30 @@ export default {
         this.$emit('allUsersAnswered', this.answers)
         this.answers = []
       }
+    },
+    showAnswerOptions() {
+      const self = this
+      const { displayName } = this.user
+      const score = this.maxScore
+      // if user fails to answer in 10 seconds his score is 0
+      const startOptionsTimer = setInterval(() => {
+        if (self.optionsTimer === 1) {
+          clearInterval(startOptionsTimer)
+          this.$emit('answerClick', {
+            displayName,
+            score: 0
+          })
+        }
+        self.optionsTimer--
+      }, 1000)
+
+      // decrease the max score
+      const decreaseMaxScore = setInterval(() => {
+        if (self.optionsTimer === 1) {
+          clearInterval(decreaseMaxScore)
+        }
+        self.maxScore--
+      }, 10)
     }
   },
   mounted() {
@@ -78,11 +107,13 @@ export default {
       this.audio.play()
     }
 
-    const startTimer = setInterval(() => {
-      if (self.timer === 1) {
-        clearInterval(startTimer)
+    const startSongTimer = setInterval(() => {
+      if (self.songTimer === 1) {
+        clearInterval(startSongTimer)
+        self.showAnswerSong = false
+        self.showAnswerOptions = true
       }
-      self.timer--
+      self.songTimer--
     }, 1000)
 
     socket.on('add-answered', function(msg) {
