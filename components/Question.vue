@@ -1,26 +1,36 @@
 <template>
   <div class="w-100 h-100">
-    <div
-      v-if="showAnswerSong"
-      class="h-100 w-100 d-flex align-items-center justify-content-center"
-    >
+    <div v-if="showAnswerSong" class="h-100 w-100 d-flex align-items-center justify-content-center">
       <div class="text-center">
-        <span class="animate__animated animate__pulse">{{
+        <span class="animate__animated animate__pulse">
+          {{
           tracks[questionNumber].trackName
-        }}</span>
+          }}
+        </span>
         <div>
           <ProgressRing
             class="animate__animated animate__heartBeat mt-5"
             :progress="songProgress"
             :radius="150"
             :stroke="8"
+            :timer="songTimer"
           />
         </div>
       </div>
     </div>
-    <div class="container" v-if="showAnswerOptions">
-      Answer in: {{ optionsTimer }}
+    <div class="container h-100 w-100" v-if="showAnswerOptions">
       <div class="row">
+        <div class="col-12 col-md-6 text-center text-md-left">
+          {{
+          tracks[questionNumber].trackName
+          }}
+        </div>
+        <div class="col-12 col-md-6 text-center text-md-right">
+          Time left:
+          <span class="text-primary">{{ optionsTimer }}</span>
+        </div>
+      </div>
+      <div class="row align-items-center justify-content-center h-100" v-if="!userAnswered">
         <div
           v-for="user in allUsers"
           :key="user.id"
@@ -29,6 +39,16 @@
         >
           <img :src="user.imageUrl" class="user-avatar" />
           {{ user.displayName }}
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center h-100 w-100" v-else>
+        <div class="text-center">
+          Waiting for all to answer
+          <span class="d-block">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </span>
         </div>
       </div>
     </div>
@@ -53,7 +73,8 @@ export default {
       optionsTimer: 10,
       showAnswerSong: true,
       showAnswerOptions: false,
-      maxScore: 1000
+      maxScore: 1000,
+      userAnswered: false
     }
   },
   computed: {
@@ -63,6 +84,7 @@ export default {
   },
   methods: {
     onClickAnswer(user) {
+      this.userAnswered = true
       // TODO: add a time limit for question
       const { socketId, displayName } = user
       const score = this.maxScore

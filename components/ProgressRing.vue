@@ -10,9 +10,7 @@
       :cx="radius"
       :cy="radius"
     />
-    <text x="50%" y="50%" text-anchor="middle">
-      Get Ready
-    </text>
+    <text x="50%" y="50%" text-anchor="middle">{{ startTimer }}</text>
   </svg>
 </template>
 
@@ -36,9 +34,13 @@ export default {
   computed: {
     strokeDashoffset() {
       return this.circumference - (this.progress / 100) * this.circumference
+    },
+    startTimer() {
+      return this.timer
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+</style>

@@ -1,3 +1,8 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
+console.log(process.env.BASE_URL)
+
 export default {
   mode: 'universal',
   /*
@@ -31,7 +36,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [],
+  buildModules: ['@nuxtjs/dotenv'],
   /*
    ** Nuxt.js modules
    */
@@ -69,7 +74,8 @@ export default {
         response_type: 'token',
         token_type: 'Bearer',
         redirect_uri:
-          `${process.env.BASE_URL}callback` || 'http://localhost:3000/callback',
+          `${process.env.BASE_URL}/callback` ||
+          'http://localhost:3000/callback',
         client_id: 'f79dd1f6402b41fe8828c55654cea80a',
         token_key: 'access_token'
       }
