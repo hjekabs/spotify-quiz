@@ -154,7 +154,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.tracks)
+    console.log(this.tracks[this.questionNumber])
     const self = this
     if (this.tracks[this.questionNumber].trackPreviewUrl) {
       this.audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)

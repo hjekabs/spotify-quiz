@@ -52,9 +52,7 @@
       />
     </div>
     <div v-else-if="game.loadStatus === 'ANSWER_BREAK'">
-      <h1>All users have answered now</h1>
-      <p>{{ answers }}</p>
-      <h2>Next question starts in: {{ game.breakTimer }}</h2>
+      <Answered :timer="game.breakTimer" :answers="answers" :track="tracks[questionNumber]" />
     </div>
     <div v-else-if="game.loadStatus === 'GAME_OVER'">
       <h1>Game over!</h1>
@@ -68,10 +66,12 @@ import socket from '~/plugins/socket.io.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { gameData } from '~/utils/game.js'
 import Question from '~/components/Question.vue'
+import Answered from '~/components/Answered.vue'
 
 export default {
   components: {
-    Question
+    Question,
+    Answered
   },
   data() {
     return {
