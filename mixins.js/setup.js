@@ -54,7 +54,9 @@ export default {
           trackName: item.name,
           trackPopularity: item.popularity,
           trackPreviewUrl: item.preview_url,
-          trackArtists: item.artists
+          trackArtists: item.artists,
+          trackPopularity: item.popularity,
+          trackAlbumImage: item.album.images[0].url
         })
       })
     }

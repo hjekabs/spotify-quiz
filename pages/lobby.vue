@@ -1,7 +1,7 @@
 <template>
   <div class="container h-100">
     <div class="row justify-content-center h-100">
-      <div class="col-12 col-md-8 d-flex flex-column justify-content-center">
+      <div class="col-12 col-md-10 d-flex flex-column justify-content-center">
         <div class="p-2 p-md-5 mb-5 dark-background">
           <label class="h1 mb-2">Enter pin:</label>
           <div class="row">
@@ -14,12 +14,7 @@
               />
             </div>
             <div class="col-12 col-md-4 mt-2 mt-md-0">
-              <button
-                class="btn btn-outline-primary h-100 w-100 join-button"
-                @click="joinGame"
-              >
-                Join
-              </button>
+              <button class="btn btn-outline-primary h-100 w-100 join-button" @click="joinGame">Join</button>
             </div>
           </div>
         </div>
@@ -28,9 +23,7 @@
           <button
             class="btn w-100 btn-outline-primary join-button"
             @click="generateGame"
-          >
-            Create a game
-          </button>
+          >Create a game</button>
         </div>
       </div>
     </div>

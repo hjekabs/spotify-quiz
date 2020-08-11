@@ -10,7 +10,7 @@
       :cx="radius"
       :cy="radius"
     />
-    <text x="50%" y="50%" text-anchor="middle">{{ startTimer }}</text>
+    <text x="50%" y="50%" text-anchor="middle" fill="#ffff">{{ startTimer }}</text>
   </svg>
 </template>
 

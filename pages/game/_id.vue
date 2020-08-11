@@ -7,30 +7,19 @@
       <div class="row p-3">
         <div class="col-12 col-md-6 py-4 text-center text-md-left">
           Join with:
-          <span class="start-text text-primary">
-            {{ this.$route.query.id }}
-          </span>
+          <span class="start-text text-primary">{{ this.$route.query.id }}</span>
         </div>
-        <div
-          class="col-12 col-md-6 text-center text-md-right"
-          v-if="isAdmin === true"
-        >
+        <div class="col-12 col-md-6 text-center text-md-right" v-if="isAdmin === true">
           <button
             class="btn btn-outline-primary p-md-4 start-button"
             @click="emitReadyGame"
-          >
-            start game
-          </button>
+          >start game</button>
         </div>
       </div>
 
       <div class="dark-background w-100 h-100 flex-1 p-5">
         <div class="row">
-          <div
-            v-for="user in users"
-            :key="user.id"
-            class="col-12 col-md-6 text-center"
-          >
+          <div v-for="user in users" :key="user.id" class="col-12 col-md-6 text-center">
             <div>
               <p class="user-lobby-card animate__animated animate__flipInX">
                 <img :src="user.imageUrl" alt class="user-avatar" />

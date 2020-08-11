@@ -2,16 +2,31 @@
   <div class="w-100 h-100">
     <div v-if="showAnswerSong" class="h-100 w-100 d-flex align-items-center justify-content-center">
       <div class="text-center">
-        <span class="animate__animated animate__pulse">
-          {{
-          tracks[questionNumber].trackName
-          }}
-        </span>
+        <div class="animate__animated animate__pulse">
+          <img
+            :src="tracks[questionNumber].trackAlbumImage"
+            width="200"
+            height="200"
+            alt
+            class="rounded"
+          />
+          <span class="d-block">
+            {{
+            tracks[questionNumber].trackName
+            }}
+          </span>
+          <small class="d-block">
+            <span
+              v-for="artist in tracks[questionNumber].trackArtists"
+              :key="artist.id"
+            >{{ artist.name }},</span>
+          </small>
+        </div>
         <div>
           <ProgressRing
             class="animate__animated animate__heartBeat mt-5"
             :progress="songProgress"
-            :radius="150"
+            :radius="100"
             :stroke="8"
             :timer="songTimer"
           />
@@ -30,7 +45,10 @@
           <span class="text-primary">{{ optionsTimer }}</span>
         </div>
       </div>
-      <div class="row align-items-center justify-content-center h-100" v-if="!userAnswered">
+      <div
+        class="row align-items-center justify-content-around h-100 dark-background"
+        v-if="!userAnswered"
+      >
         <div
           v-for="user in allUsers"
           :key="user.id"
@@ -136,6 +154,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.tracks)
     const self = this
     if (this.tracks[this.questionNumber].trackPreviewUrl) {
       this.audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)
@@ -170,27 +189,4 @@ export default {
 </script>
 
 <style>
-/* .img-thumbnail {
-  width: 50px;
-  height: 50px;
-}
-
-.user-col {
-  border: 1px solid;
-  background-color: transparent;
-  text-transform: uppercase;
-  font-size: 14px;
-  padding: 10px 20px;
-  font-weight: light;
-  color: #4cc9f0;
-}
-
-.user-col:hover {
-  background-color: #4cc9f0;
-  -webkit-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
-  -moz-box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
-  box-shadow: 10px 10px 99px 6px rgba(76, 201, 240, 1);
-  cursor: pointer;
-  color: white;
-} */
 </style>
