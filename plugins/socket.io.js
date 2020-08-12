@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
 console.log(process.env)
 
-const socket = io(process.env.BASE_URL || 'http://localhost:3000')
+const socket = io('https://juriz-spotify-quiz.herokuapp.com')
 export default socket
