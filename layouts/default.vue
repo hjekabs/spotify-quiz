@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <nuxt />
+    <audio src id="main-audio"></audio>
   </div>
 </template>
 

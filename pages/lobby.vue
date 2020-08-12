@@ -53,15 +53,22 @@ export default {
   methods: {
     joinGame() {
       const pin = this.gamePin
+      this.mainAudio.src = ''
       this.$router.push({
         path: `/game?id=${pin}`
       })
     },
     generateGame() {
       const gamePin = Math.floor(Math.random() * 10000000)
+      this.mainAudio.src = ''
       this.$router.push({
         path: `/game?id=${gamePin}&admin=true`
       })
+    }
+  },
+  mounted() {
+    if (!this.mainAudio) {
+      this.mainAudio = document.getElementById('main-audio')
     }
   }
 }

@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="container h-100 w-100" v-if="showAnswerOptions">
+    <div class="container-fluid mx-0 h-100 w-100" v-if="showAnswerOptions">
       <div class="row">
         <div class="col-12 col-md-6 text-center text-md-left">
           {{
@@ -154,11 +154,14 @@ export default {
     }
   },
   mounted() {
-    console.log(this.tracks[this.questionNumber])
+    if (!this.mainAudio) {
+      this.mainAudio = document.getElementById('main-audio')
+    }
+
     const self = this
     if (this.tracks[this.questionNumber].trackPreviewUrl) {
-      this.audio = new Audio(this.tracks[this.questionNumber].trackPreviewUrl)
-      this.audio.play()
+      this.mainAudio.src = this.tracks[this.questionNumber].trackPreviewUrl
+      this.mainAudio.play()
     }
 
     const startSongTimer = setInterval(() => {
@@ -183,7 +186,7 @@ export default {
     })
   },
   beforeDestroy() {
-    this.audio.pause()
+    this.mainAudio.pause()
   }
 }
 </script>
