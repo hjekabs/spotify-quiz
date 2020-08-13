@@ -51,16 +51,17 @@ export default {
       return user.socketId
     }
   },
-  watch: {
-    answers() {
-      const id = this.getUserSocket
-      if (this.answers) {
-        const userAnswer = this.answers.filter(
-          answer => answer.socketId === id
-        )[0]
-        this.userScore = userAnswer.score
-      }
-    }
+  // watch: {
+  //   answers() {
+  //     if (this.answers) {
+  //     }
+  //   }
+  // },
+  mounted() {
+    console.log('mounted')
+    const id = this.getUserSocket
+    const userAnswer = this.answers.filter(answer => answer.socketId === id)[0]
+    this.userScore = userAnswer.score
   }
 }
 </script>

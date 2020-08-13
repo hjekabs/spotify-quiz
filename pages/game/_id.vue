@@ -136,7 +136,6 @@ export default {
       })
     },
     allUsersAnswered(answers) {
-      this.game.loadStatus = 'ANSWER_BREAK'
       const pin = this.pin
       socket.emit('all-users-answered-question', {
         pin,
@@ -213,6 +212,7 @@ export default {
       const { allAnswers, answers, socketId } = msg
       self.answers = answers
       self.allAnswers = allAnswers
+      self.game.loadStatus = 'ANSWER_BREAK'
 
       if (self.game.breakTimerStarted) {
         self.answerBreak(socketId)
