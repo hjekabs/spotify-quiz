@@ -30,7 +30,15 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/axios'],
+  plugins: [
+    {
+      src: '~/plugins/axios'
+    },
+    {
+      src: '~/plugins/updatestorage.client.js',
+      mode: 'client'
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

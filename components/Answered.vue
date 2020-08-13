@@ -54,10 +54,12 @@ export default {
   watch: {
     answers() {
       const id = this.getUserSocket
+      console.log(id)
       if (this.answers) {
         const userAnswer = this.answers.filter(
           answer => answer.socketId === id
         )[0]
+        console.log(userAnswer)
         this.userScore = userAnswer.score
       }
     }

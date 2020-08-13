@@ -60,7 +60,7 @@
         >
           <img :src="user.imageUrl" class="user-avatar" />
           {{ user.displayName }}
-          <!-- <span v-if="user.socketId === socketId">(me)</span> -->
+          <span v-if="user.socketId === getUserSocket">(me)</span>
         </div>
       </div>
       <div class="d-flex align-items-center justify-content-center h-100 w-100" v-else>
@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import socket from '~/plugins/socket.io.js'
 import ProgressRing from '~/components/ProgressRing.vue'
 
@@ -100,9 +99,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      getUser: 'getUser'
-    })
+    getUserSocket() {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      return user.socketId
+    }
   },
   methods: {
     onClickAnswer(user) {

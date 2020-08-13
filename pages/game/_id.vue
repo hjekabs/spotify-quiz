@@ -24,7 +24,9 @@
               <p class="user-lobby-card animate__animated animate__flipInX">
                 <img :src="user.imageUrl" alt class="user-avatar" />
                 {{ user.displayName }}
-                <!-- <span v-if="user.socketId === socketId">(you)</span> -->
+                <span
+                  v-if="user.socketId === getUserSocket"
+                >(you)</span>
               </p>
             </div>
           </div>
@@ -54,24 +56,26 @@
     <div v-else-if="game.loadStatus === 'ANSWER_BREAK'" class="w-100 h-100">
       <Answered :timer="game.breakTimer" :answers="answers" :track="tracks[questionNumber]" />
     </div>
-    <div v-else-if="game.loadStatus === 'GAME_OVER'">
-      <h1>Game over!</h1>
-      <p>{{ allAnswers }}</p>
+    <div v-else-if="game.loadStatus === 'GAME_OVER'" class="w-100 h-100">
+      <Final :answers="allAnswers" />
     </div>
   </div>
 </template>
 
 <script>
 import socket from '~/plugins/socket.io.js'
+import updateStorage from '~/plugins/updatestorage.client.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { gameData } from '~/utils/game.js'
 import Question from '~/components/Question.vue'
 import Answered from '~/components/Answered.vue'
+import Final from '~/components/Final.vue'
 
 export default {
   components: {
     Question,
-    Answered
+    Answered,
+    Final
   },
   data() {
     return {
@@ -96,6 +100,10 @@ export default {
     }),
     progressWidth() {
       return 100 / this.startTimer
+    },
+    getUserSocket() {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      return user.socketId
     }
   },
 
@@ -188,7 +196,6 @@ export default {
       if (!sessionUser.socketId) {
         sessionUser = { ...sessionUser, socketId }
         sessionStorage.setItem('user', JSON.stringify(sessionUser))
-        console.log(sessionUser)
       }
 
       self.users = allUsers
@@ -212,10 +219,6 @@ export default {
       }
       self.game.breakTimerStarted = false
     })
-
-    // socket.on('user-left-the-game', function(msg) {
-    //   self.$router.push('/lobby')
-    // })
   }
 }
 </script>
