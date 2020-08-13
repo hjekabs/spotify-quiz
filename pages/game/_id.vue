@@ -47,18 +47,12 @@
         :user="user"
         :allUsers="users"
         :questionNumber="questionNumber"
-        :socketId="socketId"
         @answerClick="questionAnswered"
         @allUsersAnswered="allUsersAnswered"
       />
     </div>
     <div v-else-if="game.loadStatus === 'ANSWER_BREAK'" class="w-100 h-100">
-      <Answered
-        :timer="game.breakTimer"
-        :socketId="socketId"
-        :answers="answers"
-        :track="tracks[questionNumber]"
-      />
+      <Answered :timer="game.breakTimer" :answers="answers" :track="tracks[questionNumber]" />
     </div>
     <div v-else-if="game.loadStatus === 'GAME_OVER'">
       <h1>Game over!</h1>
@@ -174,6 +168,7 @@ export default {
 
     // set the user from localstorage
     this.user = JSON.parse(sessionStorage.getItem('user'))
+    console.log(this.user)
 
     if (isAdmin === 'true') {
       this.isAdmin = true
@@ -189,8 +184,12 @@ export default {
 
       // add the socketId for the session storage user
       let sessionUser = JSON.parse(sessionStorage.getItem('user'))
-      sessionUser = { ...sessionUser, socketId }
-      sessionStorage.setItem('user', JSON.stringify(sessionUser))
+
+      if (!sessionUser.socketId) {
+        sessionUser = { ...sessionUser, socketId }
+        sessionStorage.setItem('user', JSON.stringify(sessionUser))
+        console.log(sessionUser)
+      }
 
       self.users = allUsers
       self.pin = pin

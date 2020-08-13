@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  props: ['timer', 'answers', 'track', 'socketId'],
+  props: ['timer', 'answers', 'track'],
   data() {
     return {
       userScore: 0
@@ -45,11 +45,15 @@ export default {
   computed: {
     isCurrentUserSong() {
       return this.socketId === this.track.socketId
+    },
+    getUserSocket() {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      return user.socketId
     }
   },
   watch: {
     answers() {
-      const id = this.socketId
+      const id = this.getUserSocket
       if (this.answers) {
         const userAnswer = this.answers.filter(
           answer => answer.socketId === id

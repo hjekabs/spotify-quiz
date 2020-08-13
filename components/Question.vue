@@ -86,7 +86,7 @@ export default {
   components: {
     ProgressRing
   },
-  props: ['tracks', 'user', 'allUsers', 'questionNumber', 'socketId'],
+  props: ['tracks', 'user', 'allUsers', 'questionNumber'],
   data() {
     return {
       answers: [],

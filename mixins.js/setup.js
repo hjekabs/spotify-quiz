@@ -9,8 +9,6 @@ export default {
   async mounted() {
     const accessToken = this.$auth.getToken('social')
 
-    console.log(accessToken)
-
     const userInfo = await this.$axios.get('https://api.spotify.com/v1/me', {
       headers: {
         Authorization: accessToken
