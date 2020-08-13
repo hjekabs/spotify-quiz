@@ -36,6 +36,7 @@ function prepareData(users) {
     user.trackInfo.map(track => {
       track.socketId = user.socketId
       track.userDisplayName = user.displayName
+      track.userImageUrl = user.imageUrl
     })
   })
 }

@@ -1,6 +1,9 @@
 <template>
   <div class="w-100 h-100">
-    <div v-if="showAnswerSong" class="h-100 w-100 d-flex align-items-center justify-content-center">
+    <div
+      v-if="showAnswerSong"
+      class="h-100 w-100 d-flex align-items-center justify-content-center px-3"
+    >
       <div class="text-center">
         <div class="animate__animated animate__pulse">
           <img
@@ -46,17 +49,18 @@
         </div>
       </div>
       <div
-        class="row align-items-center justify-content-around h-100 dark-background"
+        class="row align-items-center justify-content-around h-100 dark-background px-3"
         v-if="!userAnswered"
       >
         <div
           v-for="user in allUsers"
           :key="user.id"
-          class="col-12 col-md-6 text-center user-card p-2 dark-background mb-2 btn btn-outline-primary user-game-button"
+          class="col-12 col-md-6 text-center user-card p-2 dark-background mb-2 btn btn-outline-primary"
           @click="onClickAnswer(user)"
         >
           <img :src="user.imageUrl" class="user-avatar" />
           {{ user.displayName }}
+          <!-- <span v-if="user.socketId === socketId">(me)</span> -->
         </div>
       </div>
       <div class="d-flex align-items-center justify-content-center h-100 w-100" v-else>
@@ -86,7 +90,7 @@ export default {
   data() {
     return {
       answers: [],
-      songTimer: 10,
+      songTimer: 2,
       songProgress: 0,
       optionsTimer: 10,
       showAnswerSong: true,
@@ -110,12 +114,14 @@ export default {
         // user has answered correct
         this.$emit('answerClick', {
           displayName,
-          score
+          score,
+          socketId
         })
       } else {
         this.$emit('answerClick', {
           displayName,
-          score: 0
+          score: 0,
+          socketId
         })
       }
     }
@@ -138,7 +144,8 @@ export default {
           clearInterval(startOptionsTimer)
           this.$emit('answerClick', {
             displayName,
-            score: 0
+            score: 0,
+            socketId
           })
         }
         self.optionsTimer--

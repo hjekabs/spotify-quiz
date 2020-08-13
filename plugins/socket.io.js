@@ -1,5 +1,11 @@
 import io from 'socket.io-client'
-console.log(process.env)
 
-const socket = io('https://juriz-spotify-quiz.herokuapp.com')
+let socket
+
+if (process.env.NODE_ENV === 'development') {
+  socket = io('http://localhost:3000')
+} else {
+  socket = io('https://juriz-spotify-quiz.herokuapp.com')
+}
+
 export default socket

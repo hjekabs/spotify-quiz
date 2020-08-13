@@ -51,6 +51,10 @@ circle {
   transform-origin: 50% 50%;
 }
 
+.start-text {
+  font-size: 2rem;
+}
+
 @include media-breakpoint-up(md) {
   .start-button,
   .start-text,
@@ -64,9 +68,5 @@ circle {
 }
 
 .user-game-button:hover {
-  -webkit-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
-  -moz-box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
-  box-shadow: 10px 10px 99px 6px rgba(29, 185, 84, 1);
   cursor: pointer;
-  color: white;
 }

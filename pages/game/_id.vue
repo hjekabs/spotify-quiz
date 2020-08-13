@@ -24,6 +24,7 @@
               <p class="user-lobby-card animate__animated animate__flipInX">
                 <img :src="user.imageUrl" alt class="user-avatar" />
                 {{ user.displayName }}
+                <!-- <span v-if="user.socketId === socketId">(you)</span> -->
               </p>
             </div>
           </div>
@@ -51,8 +52,13 @@
         @allUsersAnswered="allUsersAnswered"
       />
     </div>
-    <div v-else-if="game.loadStatus === 'ANSWER_BREAK'">
-      <Answered :timer="game.breakTimer" :answers="answers" :track="tracks[questionNumber]" />
+    <div v-else-if="game.loadStatus === 'ANSWER_BREAK'" class="w-100 h-100">
+      <Answered
+        :timer="game.breakTimer"
+        :socketId="socketId"
+        :answers="answers"
+        :track="tracks[questionNumber]"
+      />
     </div>
     <div v-else-if="game.loadStatus === 'GAME_OVER'">
       <h1>Game over!</h1>
@@ -180,7 +186,12 @@ export default {
 
     socket.on('game-ready-users', function(msg) {
       const { allUsers, socketId, pin } = msg
-      console.log(allUsers)
+
+      // add the socketId for the session storage user
+      let sessionUser = JSON.parse(sessionStorage.getItem('user'))
+      sessionUser = { ...sessionUser, socketId }
+      sessionStorage.setItem('user', JSON.stringify(sessionUser))
+
       self.users = allUsers
       self.pin = pin
       self.socketId = socketId
