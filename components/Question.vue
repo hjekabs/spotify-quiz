@@ -138,6 +138,7 @@ export default {
       const self = this
       const { displayName } = this.user
       const score = this.maxScore
+      const socketId = this.getUserSocket
       // if user fails to answer in 10 seconds his score is 0
       const startOptionsTimer = setInterval(() => {
         if (self.optionsTimer === 1) {
