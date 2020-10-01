@@ -3,11 +3,6 @@
 </template>
 
 <script>
-// function groupScores(answers) {
-//   let scores = []
-//   answers.forEach(answer => {})
-// }
-
 export default {
   props: ['answers'],
   computed: {

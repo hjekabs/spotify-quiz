@@ -35,8 +35,6 @@ export default function() {
           pin
         })
 
-        console.log(global[`gameUsers-${pin}`].getUsers())
-
         // return to lobby all users
         io.to(`game-${pin}`).emit('game-ready-users', {
           allUsers: global[`gameUsers-${pin}`].getUsers(),
@@ -86,7 +84,6 @@ export default function() {
 
         if (pin) {
           // if somebody left from the game pin it's over
-          console.log('user left')
 
           io.to(`game-${pin}`).emit('user-left-the-game')
           if (global[`gameUsers-${pin}`]) {

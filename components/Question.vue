@@ -107,21 +107,21 @@ export default {
   methods: {
     onClickAnswer(user) {
       this.userAnswered = true
-      // TODO: add a time limit for question
       const { socketId, displayName } = user
+      const answeredBySocket = this.getUserSocket
       const score = this.maxScore
       if (socketId === this.tracks[this.questionNumber].socketId) {
         // user has answered correct
         this.$emit('answerClick', {
           displayName,
           score,
-          socketId
+          answeredBySocket
         })
       } else {
         this.$emit('answerClick', {
           displayName,
           score: 0,
-          socketId
+          answeredBySocket
         })
       }
     }
@@ -129,7 +129,6 @@ export default {
   watch: {
     answers() {
       if (this.answers.length === this.allUsers.length) {
-        console.log('emiting all user answered')
         this.$emit('allUsersAnswered', this.answers)
         this.answers = []
       }

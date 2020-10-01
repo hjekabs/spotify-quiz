@@ -25,7 +25,6 @@ export const gameData = allUsers => {
 
   const chance = new Chance(123)
   const shuffledGameData = chance.shuffle(gameData)
-  console.log(shuffledGameData)
 
   return shuffledGameData
 }

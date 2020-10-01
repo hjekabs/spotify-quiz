@@ -175,7 +175,6 @@ export default {
 
     // set the user from localstorage
     this.user = JSON.parse(sessionStorage.getItem('user'))
-    console.log(this.user)
 
     if (isAdmin === 'true') {
       this.isAdmin = true

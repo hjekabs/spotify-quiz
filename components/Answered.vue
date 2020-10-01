@@ -53,7 +53,9 @@ export default {
   },
   mounted() {
     const id = this.getUserSocket
-    const userAnswer = this.answers.filter(answer => answer.socketId === id)[0]
+    const userAnswer = this.answers.filter(
+      answer => answer.answeredBySocket === id
+    )[0]
     this.userScore = userAnswer.score
   }
 }
