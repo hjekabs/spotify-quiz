@@ -74,6 +74,14 @@ export default function() {
         })
       })
 
+      // final scores
+      socket.on('push-to-final-score', function(msg) {
+        const { pin, userScore } = msg
+        io.to(`game-${pin}`).emit('final-scores', {
+          userScore
+        })
+      })
+
       // user has diconnected
       socket.on('disconnect', function() {
         const pin = gameUsers.userPin(socket.id)

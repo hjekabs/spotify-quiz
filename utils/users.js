@@ -44,4 +44,6 @@ class UserAnswers {
   }
 }
 
+class UserScores {}
+
 export { GameUsers, UserAnswers }
