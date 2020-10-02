@@ -44,6 +44,22 @@ class UserAnswers {
   }
 }
 
-class UserScores {}
+class UserScores {
+  constructor() {
+    this.scores = []
+  }
 
-export { GameUsers, UserAnswers }
+  getScores() {
+    return this.scores
+  }
+
+  addScore(score) {
+    this.scores.push(score)
+  }
+
+  removeScores() {
+    this.scores = []
+  }
+}
+
+export { GameUsers, UserAnswers, UserScores }

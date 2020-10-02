@@ -1,6 +1,6 @@
 import http from 'http'
 import socketIO from 'socket.io'
-import { GameUsers, UserAnswers } from '../utils/users'
+import { GameUsers, UserAnswers, UserScores } from '../utils/users'
 
 export default function() {
   this.nuxt.hook('render:before', renderer => {
@@ -22,6 +22,7 @@ export default function() {
     // create the Users class
     const gameUsers = new GameUsers()
     const answers = new UserAnswers()
+    const scores = new UserScores()
 
     io.on('connection', socket => {
       // user has joined the game
@@ -49,6 +50,7 @@ export default function() {
         io.to(`game-${pin}`).emit('start-game')
         // create a answer class instance
         global[`answersPin-${pin}`] = answers
+        global[`scoresPin-${pin}`] = scores
       })
 
       socket.on('user-answered-question', function(msg) {
@@ -77,8 +79,9 @@ export default function() {
       // final scores
       socket.on('push-to-final-score', function(msg) {
         const { pin, userScore } = msg
+        global[`scoresPin-${pin}`].addScore(userScore)
         io.to(`game-${pin}`).emit('final-scores', {
-          userScore
+          scores: global[`scoresPin-${pin}`].getScores()
         })
       })
 

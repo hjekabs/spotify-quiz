@@ -36,8 +36,8 @@ export default {
     })
 
     socket.on('final-scores', function(msg) {
-      const { userScore } = msg
-      self.allScores.push(userScore)
+      const { scores } = msg
+      self.allScores = scores
     })
   }
 }
