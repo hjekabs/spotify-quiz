@@ -49,7 +49,7 @@
         </div>
       </div>
       <div
-        class="row align-items-center justify-content-around h-100 dark-background px-3"
+        class="row align-items-center justify-content-center h-100 dark-background px-3"
         v-if="!userAnswered"
       >
         <div
