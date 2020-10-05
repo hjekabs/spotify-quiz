@@ -57,7 +57,7 @@
       <Answered :timer="game.breakTimer" :answers="answers" :track="tracks[questionNumber]" />
     </div>
     <div v-else-if="game.loadStatus === 'GAME_OVER'" class="w-100 h-100">
-      <Final :answers="allAnswers" />
+      <GameFinal :answers="allAnswers" />
     </div>
   </div>
 </template>
@@ -69,13 +69,13 @@ import { mapGetters, mapMutations } from 'vuex'
 import { gameData } from '~/utils/game.js'
 import Question from '~/components/Question.vue'
 import Answered from '~/components/Answered.vue'
-import Final from '~/components/Final.vue'
+import GameFinal from '~/components/GameFinal.vue'
 
 export default {
   components: {
     Question,
     Answered,
-    Final
+    GameFinal
   },
   data() {
     return {
@@ -84,7 +84,7 @@ export default {
       game: {
         loadStatus: 'INITIAL',
         startTimer: 5,
-        breakTimer: 10,
+        breakTimer: 2,
         breakTimerStarted: true
       },
       answers: [],
@@ -149,7 +149,7 @@ export default {
         if (self.game.breakTimer === 1) {
           clearInterval(decrementTimer)
           self.questionNumber++
-          self.game.breakTimer = 10
+          self.game.breakTimer = 2
           self.game.loadStatus = 'START'
           self.answers = []
           self.game.breakTimerStarted = true

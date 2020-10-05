@@ -81,7 +81,8 @@ export default function() {
         const { pin, userScore } = msg
         global[`scoresPin-${pin}`].addScore(userScore)
         io.to(`game-${pin}`).emit('final-scores', {
-          scores: global[`scoresPin-${pin}`].getScores()
+          scores: global[`scoresPin-${pin}`].getScores(),
+          users: global[`gameUsers-${pin}`].getUsers()
         })
       })
 
@@ -103,6 +104,10 @@ export default function() {
           if (global[`answersPin-${pin}`]) {
             global[`answersPin-${pin}`].removeAnswers()
             delete global[`answersPin-${pin}`]
+          }
+          if (global[`scoresPin-${pin}`]) {
+            global[`scoresPin-${pin}`].removeScores()
+            delete global[`scoresPin-${pin}`]
           }
         }
       })
