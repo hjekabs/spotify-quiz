@@ -53,6 +53,7 @@ export default {
   },
   mounted() {
     const id = this.getUserSocket
+    console.log(this.answers)
     const userAnswer = this.answers.filter(
       answer => answer.answeredBySocket === id
     )[0]

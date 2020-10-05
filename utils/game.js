@@ -2,7 +2,7 @@ const Chance = require('chance')
 
 export const gameData = allUsers => {
   // later dynamically define users
-  const questions = 2
+  const questions = 10
   const userCount = allUsers.length
   let initialSongsPerUser = Math.floor(questions / userCount)
   const gameData = []

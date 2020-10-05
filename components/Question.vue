@@ -124,6 +124,7 @@ export default {
           answeredBySocket
         })
       }
+      clearInterval(this.startOptionsTimer)
     }
   },
   watch: {
@@ -137,15 +138,15 @@ export default {
       const self = this
       const { displayName } = this.user
       const score = this.maxScore
-      const socketId = this.getUserSocket
+      const answeredBySocket = this.getUserSocket
       // if user fails to answer in 10 seconds his score is 0
-      const startOptionsTimer = setInterval(() => {
+      this.startOptionsTimer = setInterval(() => {
         if (self.optionsTimer === 1) {
-          clearInterval(startOptionsTimer)
+          clearInterval(self.startOptionsTimer)
           this.$emit('answerClick', {
             displayName,
             score: 0,
-            socketId
+            answeredBySocket
           })
         }
         self.optionsTimer--
