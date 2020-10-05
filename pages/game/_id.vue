@@ -84,7 +84,7 @@ export default {
       game: {
         loadStatus: 'INITIAL',
         startTimer: 5,
-        breakTimer: 2,
+        breakTimer: 10,
         breakTimerStarted: true
       },
       answers: [],
@@ -149,7 +149,7 @@ export default {
         if (self.game.breakTimer === 1) {
           clearInterval(decrementTimer)
           self.questionNumber++
-          self.game.breakTimer = 2
+          self.game.breakTimer = 10
           self.game.loadStatus = 'START'
           self.answers = []
           self.game.breakTimerStarted = true

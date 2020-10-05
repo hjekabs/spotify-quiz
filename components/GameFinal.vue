@@ -76,7 +76,6 @@ export default {
       return this.users
         .filter(user => {
           if (user.socketId === score.socketId) {
-            console.log(user.displayName)
             return user
           }
         })
@@ -86,7 +85,6 @@ export default {
       return this.users
         .filter(user => {
           if (user.socketId === score.socketId) {
-            console.log(user.displayName)
             return user
           }
         })

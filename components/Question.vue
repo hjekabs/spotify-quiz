@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       answers: [],
-      songTimer: 2,
+      songTimer: 10,
       songProgress: 0,
       optionsTimer: 10,
       showAnswerSong: true,
