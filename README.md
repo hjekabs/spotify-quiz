@@ -1,6 +1,8 @@
 # spotify-quiz
 
-> Spotify quiz similar to kahoot
+> Multiplayer Spotify quiz similar to kahoot using WebSockets.
+
+Using Spotify API get player most popular songs. From these songs a game is created and you can guess for which one of your friends the song is in their "Top Tracks"
 
 ## Build Setup
 
@@ -14,9 +16,6 @@ $ yarn dev
 # build for production and launch server
 $ yarn build
 $ yarn start
-
-# generate static project
-$ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
