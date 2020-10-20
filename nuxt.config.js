@@ -35,6 +35,9 @@ export default {
       src: '~/plugins/axios'
     },
     {
+      src: '~/plugins/vueParticles'
+    },
+    {
       src: '~/plugins/updatestorage.client.js',
       mode: 'client'
     }

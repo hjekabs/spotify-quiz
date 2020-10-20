@@ -95,8 +95,6 @@ export default function() {
         })
 
         if (pin) {
-          // if somebody left from the game pin it's over
-
           io.to(`game-${pin}`).emit('user-left-the-game')
           if (global[`gameUsers-${pin}`]) {
             global[`gameUsers-${pin}`].removeUser(socket.id)
