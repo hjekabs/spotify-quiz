@@ -19,7 +19,7 @@
     "http": "^0.0.1-security",
     "nuxt": "^2.0.0",
     "nuxt-socket-io": "^1.1.3",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
